@@ -12,5 +12,6 @@
     ./media.nix
     ./misc.nix
     ./webserver.nix
+    ./k8s.nix
   ];
 }
