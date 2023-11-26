@@ -17,6 +17,7 @@
           ms-vscode.hexeditor
           yzhang.markdown-all-in-one
           ritwickdey.liveserver
+          denoland.vscode-deno
         ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
             name = "vscode-scl";
