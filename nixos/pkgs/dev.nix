@@ -74,10 +74,17 @@
             version = "1.3.0";
             sha256 = "sha256-/mbMpel9JHmSh0GN/wIbFi/0voaQBxGn0SueZlUFZUc=";
           }
+          {
+            name = "remote-containers";
+            publisher = "ms-vscode-remote";
+            version = "0.321.0";
+            sha256 = "sha256-lgTikqIwrf1xhxP+XGQCtl2xzOGWYRlhEoh/Z8H5Jl0=";
+          }
         ];
     })
     clang-tools_16
     verible # verilog formatting
     nixpkgs-fmt # nix formatting
   ];
+  virtualisation.docker.enable = true; # for devcontainers
 }
