@@ -97,6 +97,11 @@
       customPkgs = with pkgs; [ nix-zsh-completions ];
     };
   };
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryFlavor = "curses";
+    enableSSHSupport = true;
+  };
   environment.shells = with pkgs; [ zsh ];
 
   # tmpfs :3
