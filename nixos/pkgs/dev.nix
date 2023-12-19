@@ -80,6 +80,12 @@
             version = "0.321.0";
             sha256 = "sha256-lgTikqIwrf1xhxP+XGQCtl2xzOGWYRlhEoh/Z8H5Jl0=";
           }
+          {
+            name = "mako";
+            publisher = "tommorris";
+            version = "0.2.0";
+            sha256 = "sha256-Ss5s2fTY+Q/09LQpNWaaYboUgzouJ7OnjJBKtPkonm8=";
+          }
         ];
     })
     clang-tools_16
