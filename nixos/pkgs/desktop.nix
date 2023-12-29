@@ -57,6 +57,9 @@
       [org.gnome.desktop.session]
       idle-delay=uint32 0
 
+      # recent files are annoying
+      [org.gnome.desktop.privacy]
+      remember-recent-files=false
     '';
     extraGSettingsOverridePackages = [
       pkgs.gsettings-desktop-schemas # org.gnome.desktop
