@@ -60,6 +60,10 @@
       # recent files are annoying
       [org.gnome.desktop.privacy]
       remember-recent-files=false
+
+      # sane scrolling
+      [org.gnome.desktop.peripherals.touchpad]
+      natural-scroll=true
     '';
     extraGSettingsOverridePackages = [
       pkgs.gsettings-desktop-schemas # org.gnome.desktop

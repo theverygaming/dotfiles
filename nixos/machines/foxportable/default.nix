@@ -13,10 +13,7 @@
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot/efi";
     };
-    grub = {
-      efiSupport = true;
-      device = "nodev";
-    };
+    systemd-boot.enable = true;
   };
 
   # Networking
@@ -35,18 +32,10 @@
   # we do not want xterm
   services.xserver.excludePackages = [ pkgs.xterm ];
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
   # Enable touchpad support
   services.xserver.libinput.enable = true;
 
   # To be sorted in seperate file lmao
-
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = true;
-  };
 
   environment.variables = {
     SUDO_PROMPT = "enter your password to the :3 organisation -> ";
