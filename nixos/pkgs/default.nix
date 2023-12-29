@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./custom/custom.nix
+    ./custom
     ./desktop.nix
     ./base.nix
     ./social.nix

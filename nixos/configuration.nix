@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./pkgs/pkgs.nix
+    ./pkgs
     ./nvidia.nix
     ./sound.nix
     ./users.nix
