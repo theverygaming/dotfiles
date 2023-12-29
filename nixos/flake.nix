@@ -19,6 +19,14 @@
           ./machines/foxnix
         ];
       };
+      "foxportable" = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        modules = with self.nixosModules; [
+          commonMachineConfig
+          defaultPkgs
+          ./machines/foxportable
+        ];
+      };
     };
   };
 }
