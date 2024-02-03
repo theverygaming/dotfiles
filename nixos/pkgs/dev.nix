@@ -23,38 +23,19 @@
             name = "vscode-scl";
             publisher = "Gunders89";
             version = "0.0.21";
-            sha256 =
-              "98f8b089e1c679224d014f3c5f9f409661184b9272dd4140de1f3944d330067d";
+            sha256 = "sha256-mPiwieHGeSJNAU88X59AlmEYS5Jy3UFA3h85RNMwBn0=";
           }
           {
             name = "VerilogHDL";
             publisher = "mshr-h";
-            version = "1.11.11";
-            sha256 = "sha256-YzJxWVBkqz180vEU4WRHQL2GU3RpiqGnlkHNskI68Uo=";
+            version = "1.13.1";
+            sha256 = "sha256-5ykD3Cvy16IgFdEDPj6UzDzFbJ461JGQunEPhZSDN2s=";
           }
           {
             name = "discord-vscode";
             publisher = "icrawl";
             version = "5.8.0";
             sha256 = "sha256-IU/looiu6tluAp8u6MeSNCd7B8SSMZ6CEZ64mMsTNmU=";
-          }
-          {
-            name = "teroshdl";
-            publisher = "teros-technology";
-            version = "5.0.11";
-            sha256 = "sha256-9ng2MQ7XZtM+Az9WHY+/ZYrbROEDbHQDXm07JW3Kvk8=";
-          }
-          {
-            name = "lex";
-            publisher = "luniclynx";
-            version = "0.1.0";
-            sha256 = "sha256-yZEo28yWiLDL5AyL7yejpdJ7ISHl2gIjhPMWgf2tCgk=";
-          }
-          {
-            name = "bison";
-            publisher = "luniclynx";
-            version = "0.1.0";
-            sha256 = "sha256-zauCtFiB1RcoV8W4zg2D63mLRDbMTWVleI/cbzFEdpY=";
           }
           {
             name = "vscode-mlir";
@@ -65,8 +46,8 @@
           {
             name = "python";
             publisher = "ms-python";
-            version = "2023.18.0";
-            sha256 = "sha256-Ai2V3IZvNdb3R/HdAWXy+BBvmgl9g3+9VN3RZMF5uG8=";
+            version = "2024.0.0";
+            sha256 = "sha256-1uC3mNQRhigvs954OX+pSb7VAnEse7njpKGCZbL4wWs=";
           }
           {
             name = "vscode-latex";
@@ -77,8 +58,8 @@
           {
             name = "remote-containers";
             publisher = "ms-vscode-remote";
-            version = "0.321.0";
-            sha256 = "sha256-lgTikqIwrf1xhxP+XGQCtl2xzOGWYRlhEoh/Z8H5Jl0=";
+            version = "0.339.0";
+            sha256 = "sha256-H/mjQ4CL8Ylmo5F5rV/3U57yAkc96lxDbAs36kKbkdY=";
           }
           {
             name = "mako";

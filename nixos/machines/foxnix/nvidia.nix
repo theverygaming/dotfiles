@@ -17,7 +17,7 @@
 
     # Use the open source version of the kernel module
     # Only available on driver 515.43.04+
-    open = true;
+    # open = true; # marked as broken on february 3rd 2024
 
     # Enable the nvidia settings menu
     nvidiaSettings = true;

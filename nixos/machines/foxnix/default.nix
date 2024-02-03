@@ -21,7 +21,7 @@
   };
 
   # Kernel config
-  boot.kernel.sysctl = { "vm.swappiness" = 1; };
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   # Networking
   networking.hostName = "foxnix";
