@@ -4,7 +4,6 @@
   imports = [
     ./nvidia.nix
     ./sound.nix
-    ./users.nix
     ./hardware-configuration.nix # hardware scan results
   ];
 
