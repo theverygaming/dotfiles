@@ -72,4 +72,10 @@
     enableSSHSupport = true;
   };
   environment.shells = with pkgs; [ zsh ];
+
+  # avahi
+   services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+  };
 }
