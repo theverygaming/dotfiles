@@ -20,16 +20,28 @@
           denoland.vscode-deno
         ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
-            name = "vscode-scl";
-            publisher = "Gunders89";
-            version = "0.0.21";
-            sha256 = "sha256-mPiwieHGeSJNAU88X59AlmEYS5Jy3UFA3h85RNMwBn0=";
+            name = "remote-containers";
+            publisher = "ms-vscode-remote";
+            version = "0.346.0";
+            sha256 = "sha256-v36nuM+TrStTIuw0qV/8IkYlauyFTRmKQZ60ve0jVsA=";
+          }
+          {
+            name = "python";
+            publisher = "ms-python";
+            version = "2024.1.10531008";
+            sha256 = "sha256-HNmHp5iLVNH0HOwEr5sUhnFbSqnfTN0EHxM4P+7l/X8=";
           }
           {
             name = "VerilogHDL";
             publisher = "mshr-h";
-            version = "1.13.1";
-            sha256 = "sha256-5ykD3Cvy16IgFdEDPj6UzDzFbJ461JGQunEPhZSDN2s=";
+            version = "1.13.2";
+            sha256 = "sha256-MOU8zf2qS7P2pQ29w3mvhDc2OvZiH4HNe530BjIiRAA=";
+          }
+          {
+            name = "vscode-scl";
+            publisher = "Gunders89";
+            version = "0.0.21";
+            sha256 = "sha256-mPiwieHGeSJNAU88X59AlmEYS5Jy3UFA3h85RNMwBn0=";
           }
           {
             name = "discord-vscode";
@@ -44,22 +56,10 @@
             sha256 = "sha256-slu3Ri8U0ZthHidmd18jcmogPudzvXxqhpmo8AWmsvw=";
           }
           {
-            name = "python";
-            publisher = "ms-python";
-            version = "2024.0.0";
-            sha256 = "sha256-1uC3mNQRhigvs954OX+pSb7VAnEse7njpKGCZbL4wWs=";
-          }
-          {
             name = "vscode-latex";
             publisher = "mathematic";
             version = "1.3.0";
             sha256 = "sha256-/mbMpel9JHmSh0GN/wIbFi/0voaQBxGn0SueZlUFZUc=";
-          }
-          {
-            name = "remote-containers";
-            publisher = "ms-vscode-remote";
-            version = "0.339.0";
-            sha256 = "sha256-H/mjQ4CL8Ylmo5F5rV/3U57yAkc96lxDbAs36kKbkdY=";
           }
           {
             name = "mako";
