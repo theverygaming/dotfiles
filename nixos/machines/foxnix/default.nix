@@ -20,7 +20,7 @@
   };
 
   # Kernel config
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Networking
   networking.hostName = "foxnix";
@@ -78,4 +78,7 @@
     enable = true;
     nssmdns4 = true;
   };
+
+  # i just want to build an rpi image...
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 }

@@ -15,4 +15,6 @@
 
   programs.zsh.enable = true; # TODO: get rid of this if possible
   environment.shells = with pkgs; [ zsh ];
+
+  hardware.rtl-sdr.enable = true;
 }
