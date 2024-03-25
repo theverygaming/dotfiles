@@ -26,9 +26,16 @@
     gnome-calendar
   ]);
 
-  environment.systemPackages = with pkgs; [
-    # gnome.gnome-boxes # gnome VNC etc. tool
+  /*
+    services.xserver.displayManager.sddm.enable = true;
+    services.xserver.desktopManager.plasma6.enable = true;
 
-    # xfce.xfce4-terminal
-  ];
+    environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    oxygen # weird theme
+    kate # code editor
+    okular # Document viewer
+    gwenview # image viewer
+    elisa # music player
+    ];
+  */
 }

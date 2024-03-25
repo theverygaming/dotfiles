@@ -5,6 +5,7 @@ let
 in {
   imports = builtins.concatLists [
     (lib.optional osConfig.services.xserver.desktopManager.gnome.enable ./gui/gnome.nix)
+    (lib.optional osConfig.services.xserver.desktopManager.plasma6.enable ./gui/plasma6.nix)
   ];
   
   home.username = "user";

@@ -8,9 +8,15 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    #plasma-manager = {
+    #  url = "github:pjones/plasma-manager";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #  inputs.home-manager.follows = "home-manager";
+    #};
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, ... }: {
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, /* plasma-manager, */ ... }: {
     nixosModules = {
       declarativeHome = { ... }: {
         # big thank you to https://determinate.systems/posts/declarative-gnome-configuration-with-nixos !!!
@@ -18,6 +24,7 @@
         config = {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          #home-manager.extraSpecialArgs = { inherit plasma-manager; };
         };
       };
       commonMachineConfig = ./common;

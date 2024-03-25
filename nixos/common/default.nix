@@ -17,7 +17,7 @@
   };
 
   # Configure console keymap
-  console.keyMap = "de";
+  console.keyMap = "us";
 
   # I NEED ALL OF THE GIGABYTES
   nix.settings.auto-optimise-store = true;
@@ -42,5 +42,17 @@
     device = "none";
     fsType = "tmpfs";
     options = [ "defaults" "size=8G" "mode=755" ];
+  };
+
+  virtualisation.vmVariant = {
+    # for nixos-rebuild build-vm
+    virtualisation = {
+      memorySize = 3072;
+      cores = 3;
+      #qemu.options = [
+      #  "-vga none -device qxl-vga,vgamem_mb=64,ram_size_mb=256,vram_size_mb=128,max_outputs=3"
+      #  "-display none -spice port=5900,addr=127.0.0.1,disable-ticketing"
+      #];
+    };
   };
 }
