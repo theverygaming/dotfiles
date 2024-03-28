@@ -28,7 +28,7 @@
 
   /*
     services.xserver.displayManager.sddm.enable = true;
-    services.xserver.desktopManager.plasma6.enable = true;
+    services.desktopManager.plasma6.enable = true;
 
     environment.plasma6.excludePackages = with pkgs.kdePackages; [
     oxygen # weird theme

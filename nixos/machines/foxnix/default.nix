@@ -68,7 +68,7 @@
   };
   programs.gnupg.agent = {
     enable = true;
-    pinentryFlavor = "curses";
+    pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
   };
   environment.shells = with pkgs; [ zsh ];
