@@ -55,12 +55,12 @@
             version = "0.0.11";
             sha256 = "sha256-slu3Ri8U0ZthHidmd18jcmogPudzvXxqhpmo8AWmsvw=";
           }
-          {
-            name = "vscode-latex";
-            publisher = "mathematic";
-            version = "1.3.0";
-            sha256 = "sha256-/mbMpel9JHmSh0GN/wIbFi/0voaQBxGn0SueZlUFZUc=";
-          }
+          #{
+          #  name = "vscode-latex";
+          #  publisher = "mathematic";
+          #  version = "1.3.0";
+          #  sha256 = "sha256-/mbMpel9JHmSh0GN/wIbFi/0voaQBxGn0SueZlUFZUc=";
+          #}
           {
             name = "mako";
             publisher = "tommorris";
