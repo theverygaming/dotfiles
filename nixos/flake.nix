@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/8db50d6f207f6e6bea072986fe5abfc955f04bfc"; # pinned to commit before xz 5.4.6 -> 5.6.0
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
