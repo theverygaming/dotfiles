@@ -74,7 +74,7 @@
 
     # favorites
     "org/gnome/shell" = {
-      favorite-apps = [ "org.gnome.Nautilus.desktop" "google-chrome.desktop" "discord.desktop" "code.desktop" "xfce4-terminal.desktop" "org.pipewire.Helvum.desktop" ];
+      favorite-apps = [ "org.gnome.Nautilus.desktop" "google-chrome.desktop" "discord.desktop" "org.telegram.desktop.desktop" "signal-desktop.desktop" "code.desktop" "xfce4-terminal.desktop" "org.pipewire.Helvum.desktop" ];
     };
 
     # touchpad

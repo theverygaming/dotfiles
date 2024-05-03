@@ -42,7 +42,7 @@
   services.printing.enable = true;
 
   # Enable touchpad support
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   # To be sorted in seperate file lmao
 
@@ -81,4 +81,8 @@
 
   # i just want to build an rpi image...
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+  # TODO: move
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
 }

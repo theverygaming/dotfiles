@@ -33,7 +33,7 @@
   services.xserver.excludePackages = [ pkgs.xterm ];
 
   # Enable touchpad support
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   # To be sorted in seperate file lmao
 

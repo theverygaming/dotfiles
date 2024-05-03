@@ -5,5 +5,6 @@
     discord
     telegram-desktop
     element-desktop
+    signal-desktop
   ];
 }
