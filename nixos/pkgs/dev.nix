@@ -6,10 +6,11 @@
     gh # GitHub CLI
     git
     python311
+    clang-tools # for clangd
     (vscode-with-extensions.override {
       vscodeExtensions = with vscode-extensions;
         [
-          ms-vscode.cpptools
+          llvm-vs-code-extensions.vscode-clangd
           jnoortheen.nix-ide
           twxs.cmake
           gruntfuggly.todo-tree
