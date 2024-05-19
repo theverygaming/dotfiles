@@ -7,8 +7,9 @@
     driSupport32Bit = true;
   };
 
+  /*
   # Tell Xorg to use the nvidia driver (also valid for Wayland)
-  services.xserver.videoDrivers = [ "nvidia" ];
+  #services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
 
@@ -25,4 +26,5 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+  */
 }
