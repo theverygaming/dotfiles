@@ -9,7 +9,7 @@
 
   /*
   # Tell Xorg to use the nvidia driver (also valid for Wayland)
-  #services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
 
