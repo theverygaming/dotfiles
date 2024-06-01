@@ -17,28 +17,14 @@
           gruntfuggly.todo-tree
           mhutchie.git-graph
           ms-vscode.hexeditor
+          ms-vscode-remote.remote-ssh
+          ms-vscode-remote.remote-containers
+          ms-python.python
+          mshr-h.veriloghdl
           yzhang.markdown-all-in-one
           ritwickdey.liveserver
           denoland.vscode-deno
         ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-          {
-            name = "remote-containers";
-            publisher = "ms-vscode-remote";
-            version = "0.346.0";
-            sha256 = "sha256-v36nuM+TrStTIuw0qV/8IkYlauyFTRmKQZ60ve0jVsA=";
-          }
-          {
-            name = "python";
-            publisher = "ms-python";
-            version = "2024.1.10531008";
-            sha256 = "sha256-HNmHp5iLVNH0HOwEr5sUhnFbSqnfTN0EHxM4P+7l/X8=";
-          }
-          {
-            name = "VerilogHDL";
-            publisher = "mshr-h";
-            version = "1.13.2";
-            sha256 = "sha256-MOU8zf2qS7P2pQ29w3mvhDc2OvZiH4HNe530BjIiRAA=";
-          }
           {
             name = "vscode-scl";
             publisher = "Gunders89";
