@@ -34,7 +34,7 @@ in
             airspy
             airspyhf
             glfw
-            gnome.zenity
+            zenity
             zstd
 
             # optional hw support

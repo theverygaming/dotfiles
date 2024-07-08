@@ -1,10 +1,9 @@
 { config, lib, pkgs, ... }: {
 
-  # Make sure opengl is enabled
-  hardware.opengl = {
+  # Make sure graphics drivers are enabled
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   /*

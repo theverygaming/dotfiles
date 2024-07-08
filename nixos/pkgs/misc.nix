@@ -8,6 +8,6 @@
     #texlive.combined.scheme-full
     #perlPackages.YAMLTiny # to make latexindent work
     sdrpp
-    gnome.zenity # required by SDR++ for file dialogs
+    zenity # required by SDR++ for file dialogs
   ];
 }
