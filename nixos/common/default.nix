@@ -21,11 +21,6 @@
 
   # I NEED ALL OF THE GIGABYTES
   nix.settings.auto-optimise-store = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
-  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
