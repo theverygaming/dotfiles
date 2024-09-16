@@ -47,7 +47,7 @@
         modules = with self.nixosModules; [
           commonMachineConfig
           defaultPkgs
-          ./configs/xfce.nix
+          ./configs/i3.nix
           ./machines/foxportable
           declarativeHome
           ./users/user
