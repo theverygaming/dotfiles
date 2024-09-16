@@ -3,7 +3,6 @@
 {
   imports = [
     ./sound.nix
-    ./users.nix
     ./hardware-configuration.nix # hardware scan results
   ];
 
@@ -58,4 +57,6 @@
     enableSSHSupport = true;
   };
   environment.shells = with pkgs; [ zsh ];
+
+   hardware.rtl-sdr.enable = true;
 }

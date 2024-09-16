@@ -19,7 +19,7 @@
           ms-vscode.hexeditor
           ms-vscode-remote.remote-ssh
           ms-vscode-remote.remote-containers
-          ms-python.python
+          # ms-python.python Broken - 2024-09-15
           mshr-h.veriloghdl
           yzhang.markdown-all-in-one
           ritwickdey.liveserver

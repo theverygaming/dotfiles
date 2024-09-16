@@ -3,7 +3,6 @@
 {
   imports = [
     ./custom
-    ./desktop.nix
     ./base.nix
     ./social.nix
     ./dev.nix

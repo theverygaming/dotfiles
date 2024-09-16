@@ -36,6 +36,7 @@
         modules = with self.nixosModules; [
           commonMachineConfig
           defaultPkgs
+          ./configs/gnome.nix
           ./machines/foxnix
           declarativeHome
           ./users/user
@@ -46,7 +47,10 @@
         modules = with self.nixosModules; [
           commonMachineConfig
           defaultPkgs
+          ./configs/xfce.nix
           ./machines/foxportable
+          declarativeHome
+          ./users/user
         ];
       };
     };
