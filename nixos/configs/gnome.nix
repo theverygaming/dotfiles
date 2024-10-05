@@ -16,7 +16,6 @@
     totem # video player
     gnome-calculator
     gnome-calendar
-  ]) ++ (with pkgs.gnome; [
     gnome-music
     tali # poker game
     iagno # go game

@@ -6,7 +6,7 @@
     runcat
     clipboard-indicator
   ] ++ (with pkgs; [
-    gnome.gnome-boxes # VNC etc. tool
+    gnome-boxes # VNC etc. tool
     xfce.xfce4-terminal
   ]);
 

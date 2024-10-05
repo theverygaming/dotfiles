@@ -15,7 +15,7 @@
           sha256 = "sha256-Snv1lcoqZUjIexjmtGwA0nV1YTxYdK2K1l7gmoXzhN0=";
         };
 
-        cargoSha256 = "sha256-9bc9YTH4mc3xab44IP5Gh9/8WvP4HTRmEQUzUUcXgSo=";
+        cargoHash = "sha256-9bc9YTH4mc3xab44IP5Gh9/8WvP4HTRmEQUzUUcXgSo=";
       };
   in [ fox32asm ];
 }
