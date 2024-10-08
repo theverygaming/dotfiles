@@ -56,6 +56,9 @@
     EDITOR = "nano";
   };
 
+  # for zsh
+  # adds itself to ohMyZsh Plugins if ohMyZsh is enabled
+  programs.fzf.fuzzyCompletion = true;
   programs.zsh = {
     enable = true;
     interactiveShellInit = "alias neofetch=hyfetch";

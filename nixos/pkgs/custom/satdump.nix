@@ -1,20 +1,17 @@
 # TODO: -> nixpkgs
 { config, pkgs, ... }:
 
-let
-  satdump_version = "1.2.0";
-in
 {
   environment.systemPackages =
     let
       satdump = with pkgs;
         stdenv.mkDerivation rec {
           pname = "satdump";
-          version = satdump_version;
+          version = "1.2.0";
 
           src = fetchgit {
             url = "https://github.com/SatDump/SatDump.git";
-            rev = satdump_version;
+            rev = version;
             sha256 = "sha256-QGegi5/geL5U3/ecc3hsdW+gp25UE9fOYVLFJUo/N50=";
           };
 
