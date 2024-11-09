@@ -23,7 +23,7 @@
           mshr-h.veriloghdl
           yzhang.markdown-all-in-one
           ritwickdey.liveserver
-          denoland.vscode-deno
+          vue.volar
         ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
             name = "vscode-scl";
