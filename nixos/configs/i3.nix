@@ -3,6 +3,7 @@
 {
   environment.systemPackages = with pkgs; [
     xfce.xfce4-terminal
+    i3lock-fancy
   ];
 
   programs.dconf.enable = true;
