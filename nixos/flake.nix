@@ -53,6 +53,17 @@
           ./users/user
         ];
       };
+      "macintosh" = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        modules = with self.nixosModules; [
+          commonMachineConfig
+          defaultPkgs
+          ./configs/i3.nix
+          ./machines/macintosh
+          declarativeHome
+          ./users/user
+        ];
+      };
     };
   };
 }
