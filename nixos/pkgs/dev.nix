@@ -60,6 +60,7 @@
     clang-tools_16
     verible # verilog formatting
     nixpkgs-fmt # nix formatting
+    cartero # cool GTK API testing tool
   ];
   virtualisation.docker.enable = true; # for devcontainers
 }
