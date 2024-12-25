@@ -47,7 +47,7 @@
         modules = with self.nixosModules; [
           commonMachineConfig
           defaultPkgs
-          ./configs/i3.nix
+          ./configs/sway.nix
           ./machines/foxportable
           declarativeHome
           ./users/user
