@@ -74,7 +74,7 @@
 
     # favorites
     "org/gnome/shell" = {
-      favorite-apps = [ "org.gnome.Nautilus.desktop" "google-chrome.desktop" "discord.desktop" "org.telegram.desktop.desktop" "signal-desktop.desktop" "code.desktop" "xfce4-terminal.desktop" "org.pipewire.Helvum.desktop" ];
+      favorite-apps = [ "org.gnome.Nautilus.desktop" "firefox.desktop" "google-chrome.desktop" "discord.desktop" "org.telegram.desktop.desktop" "signal-desktop.desktop" "code.desktop" "xfce4-terminal.desktop" "org.pipewire.Helvum.desktop" ];
     };
 
     # touchpad
@@ -88,9 +88,32 @@
       accel-profile = "flat";
     };
 
+    # keyboard layout and stuff
+    "org/gnome/desktop/input-sources" =
+      let
+        layouts = [ (lib.hm.gvariant.mkTuple [ "xkb" "us" ]) (lib.hm.gvariant.mkTuple [ "xkb" "de" ]) ];
+      in
+      {
+        sources = layouts;
+        mru-sources = layouts; # mru is "most recently used"
+      };
+
     # keybinds
     "org/gnome/shell/keybindings" = {
       show-screenshot-ui = [ "<Shift><Super>s" ]; # windows screenshot keybind (i'm used to it)
+    };
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      search = [ "<Super>d" ];
+    };
+
+    # custom keybinds
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+      name = "open terminal";
+      command = "xfce4-terminal";
+      binding = "<Super>Return";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" ];
     };
   };
 
