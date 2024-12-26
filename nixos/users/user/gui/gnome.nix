@@ -115,6 +115,21 @@
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" ];
     };
+
+    # desktop background
+    "org/gnome/desktop/background" =
+      let
+        background = pkgs.fetchurl {
+          url = "https://xenia.chimmie.k.vu/art/bin/xenia_drawing5-1.png";
+          hash = "sha256-5G1QJ75aDCQsdmdZE95rZN7Yj9yyIshhdjGAzDMykos=";
+        };
+      in
+      {
+        picture-uri = "file://${background}";
+        picture-uri-dark = "file://${background}";
+        primary-color = "#000000000000";
+        secondary-color = "#000000000000";
+      };
   };
 
   gtk = {
