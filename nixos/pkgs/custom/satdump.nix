@@ -15,6 +15,8 @@
             sha256 = "sha256-RRh0uk8auY/1z6oThq1sJlo0ruxm5gtpghb1YGAyDZw=";
           };
 
+          patches = [ ./cmake-fix.patch ];
+
           nativeBuildInputs = [ cmake pkg-config ];
           buildInputs = [
             # required dependencies
