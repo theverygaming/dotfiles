@@ -63,4 +63,7 @@
     cartero # cool GTK API testing tool
   ];
   virtualisation.docker.enable = true; # for devcontainers
+
+  # logic analyzer stuff
+  programs.pulseview.enable = true;
 }
