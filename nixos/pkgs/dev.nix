@@ -24,6 +24,7 @@
           yzhang.markdown-all-in-one
           ritwickdey.liveserver
           vue.volar
+          marp-team.marp-vscode # Markdown presentation tool
         ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
             name = "vscode-scl";
