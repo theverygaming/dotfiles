@@ -7,6 +7,7 @@
       rustPlatform.buildRustPackage rec {
         pname = "fox32asm";
         version = "0.3.0";
+        useFetchCargoVendor = true;
 
         src = fetchgit {
           url = "https://github.com/fox32-arch/fox32asm.git";
@@ -15,7 +16,7 @@
           sha256 = "sha256-Snv1lcoqZUjIexjmtGwA0nV1YTxYdK2K1l7gmoXzhN0=";
         };
 
-        cargoHash = "sha256-9bc9YTH4mc3xab44IP5Gh9/8WvP4HTRmEQUzUUcXgSo=";
+        cargoHash = "sha256-Ns6XXy+Nu1Nj/cRYt7bTWXCkHlFhgd/UIj83YE1sNHE=";
       };
   in [ fox32asm ];
 }
