@@ -25,7 +25,7 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  system.stateVersion = "unstable";
+  system.stateVersion = "25.05";
 
   system.autoUpgrade.enable = true;
   system.autoUpgrade.dates = "weekly";
