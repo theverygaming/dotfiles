@@ -23,10 +23,10 @@
       defaults = { name, ... }: {
         imports = [
           inputs.home-manager.nixosModules.home-manager
-          (./. + "/machines/${name}")
+          (./. + "/hosts/${name}")
         ];
       };
-    } // (with inputs.nixpkgs.lib; listToAttrs (map (x: nameValuePair x {}) (attrNames (filterAttrs (x: type: type == "directory") (builtins.readDir ./machines)))));
+    } // (with inputs.nixpkgs.lib; listToAttrs (map (x: nameValuePair x {}) (attrNames (filterAttrs (x: type: type == "directory") (builtins.readDir ./hosts)))));
 
     nixosConfigurations = (inputs.colmena.lib.makeHive self.colmena).nodes;
   };
