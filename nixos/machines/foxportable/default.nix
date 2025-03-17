@@ -11,6 +11,8 @@
     ../../users/user
   ];
 
+  nixpkgs.system = "x86_64-linux";
+
   # Bootloader.
   boot.loader = {
     efi = {
