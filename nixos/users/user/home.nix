@@ -6,7 +6,6 @@ in
 {
   imports = builtins.concatLists [
     (lib.optional osConfig.services.xserver.desktopManager.gnome.enable ./gui/gnome.nix)
-    (lib.optional osConfig.services.desktopManager.plasma6.enable ./gui/plasma6.nix)
     (lib.optional osConfig.services.xserver.desktopManager.xfce.enable ./gui/xfce.nix)
     (lib.optional osConfig.programs.sway.enable ./gui/sway.nix)
   ];
