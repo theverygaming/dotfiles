@@ -4,6 +4,11 @@
   imports = [
     ./sound.nix
     ./hardware-configuration.nix # hardware scan results
+
+    ../../common
+    ../../pkgs
+    ../../configs/i3.nix
+    ../../users/user
   ];
 
   # Bootloader.

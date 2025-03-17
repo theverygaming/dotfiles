@@ -17,51 +17,28 @@
   };
 
   outputs = { self, nixpkgs, nixos-hardware, home-manager, /* plasma-manager, */ ... }: {
-    nixosModules = {
-      declarativeHome = { ... }: {
-        # big thank you to https://determinate.systems/posts/declarative-gnome-configuration-with-nixos !!!
-        imports = [ home-manager.nixosModules.home-manager ];
-        config = {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          #home-manager.extraSpecialArgs = { inherit plasma-manager; };
-        };
-      };
-      commonMachineConfig = ./common;
-      defaultPkgs = ./pkgs;
-    };
+    nixosModules = {};
     nixosConfigurations = {
       "foxnix" = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = with self.nixosModules; [
-          commonMachineConfig
-          defaultPkgs
-          ./configs/gnome.nix
+          home-manager.nixosModules.home-manager
           ./machines/foxnix
-          declarativeHome
-          ./users/user
         ];
       };
       "foxportable" = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = with self.nixosModules; [
-          commonMachineConfig
-          defaultPkgs
-          ./configs/gnome.nix
+          home-manager.nixosModules.home-manager
           ./machines/foxportable
-          declarativeHome
-          ./users/user
         ];
       };
       "macintosh" = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = with self.nixosModules; [
-          commonMachineConfig
-          defaultPkgs
+          home-manager.nixosModules.home-manager
           ./configs/i3.nix
           ./machines/macintosh
-          declarativeHome
-          ./users/user
         ];
       };
     };

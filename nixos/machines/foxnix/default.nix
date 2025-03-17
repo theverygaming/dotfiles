@@ -5,6 +5,11 @@
     ./nvidia.nix
     ./sound.nix
     ./hardware-configuration.nix # hardware scan results
+
+    ../../common
+    ../../pkgs
+    ../../configs/gnome.nix
+    ../../users/user
   ];
 
   # Bootloader.
