@@ -22,8 +22,10 @@
       };
       defaults = { name, ... }: {
         imports = [
-          inputs.home-manager.nixosModules.home-manager
+          ./modules/common
+          ./modules/nixos
           (./. + "/hosts/${name}")
+          inputs.home-manager.nixosModules.home-manager
         ];
       };
     } // (with inputs.nixpkgs.lib; listToAttrs (map (x: nameValuePair x {}) (attrNames (filterAttrs (x: type: type == "directory") (builtins.readDir ./hosts)))));
