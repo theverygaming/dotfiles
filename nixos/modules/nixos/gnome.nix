@@ -4,7 +4,7 @@ let
   cfg = config.custom.desktops.gnome;
 in {
   options.custom.desktops.gnome = {
-    enable = lib.mkEnableOption "GNOME desktop";
+    enable = lib.mkEnableOption "Enable GNOME desktop";
   };
 
   config = lib.mkIf cfg.enable {

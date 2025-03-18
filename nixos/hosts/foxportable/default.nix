@@ -9,6 +9,8 @@
     ../../pkgs
     ../../users/user
   ];
+  
+  custom.profiles.desktop.enable = true;
 
   custom.desktops.gnome.enable = true;
 

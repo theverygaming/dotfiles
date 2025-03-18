@@ -11,6 +11,8 @@
     ../../users/user
   ];
 
+  custom.profiles.desktop.enable = true;
+
   custom.desktops.gnome.enable = true;
 
   nixpkgs.system = "x86_64-linux";
