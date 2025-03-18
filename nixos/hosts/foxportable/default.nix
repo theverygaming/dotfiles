@@ -7,9 +7,10 @@
 
     ../../common
     ../../pkgs
-    ../../configs/gnome.nix
     ../../users/user
   ];
+
+  custom.desktops.gnome.enable = true;
 
   nixpkgs.system = "x86_64-linux";
 
