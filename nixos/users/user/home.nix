@@ -29,7 +29,6 @@ in
   programs.home-manager.enable = true;
   home.stateVersion = "23.05";
 
-  # TODO: this doesn't work i think lol
   nix =  {
     channels = {
       nixpkgs = flakeInputs.nixpkgs;
