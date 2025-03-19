@@ -66,25 +66,11 @@
     EDITOR = "nano";
   };
 
-  # for zsh
-  # adds itself to ohMyZsh Plugins if ohMyZsh is enabled
-  programs.fzf.fuzzyCompletion = true;
-  programs.zsh = {
-    enable = true;
-    interactiveShellInit = "alias neofetch=hyfetch";
-    ohMyZsh = {
-      enable = true;
-      plugins = [ "git" "colored-man-pages" ];
-      theme = "lambda";
-      customPkgs = with pkgs; [ nix-zsh-completions ];
-    };
-  };
   programs.gnupg.agent = {
     enable = true;
     pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
   };
-  environment.shells = with pkgs; [ zsh ];
 
   # avahi
   services.avahi = {

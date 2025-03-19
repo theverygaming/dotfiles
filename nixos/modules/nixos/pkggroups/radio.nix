@@ -12,5 +12,7 @@ in {
       sdrpp
       zenity # required by SDR++ for file dialogs
     ];
+
+    hardware.rtl-sdr.enable = lib.mkDefault true;
   };
 }

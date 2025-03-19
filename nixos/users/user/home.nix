@@ -1,4 +1,4 @@
-{ pkgs, lib, osConfig, config, ... }:
+{ pkgs, lib, osConfig, config, flakeInputs, ... }:
 
 let
   isGui = osConfig.services.xserver.enable;
@@ -30,9 +30,29 @@ in
   home.stateVersion = "23.05";
 
   # TODO: this doesn't work i think lol
-  # nix =  {
-  #   channels = {
-  #     nixpkgs = flakeInputs.nixpkgs;
-  #   };
-  # };
+  nix =  {
+    channels = {
+      nixpkgs = flakeInputs.nixpkgs;
+    };
+    keepOldNixPath = false;
+  };
+
+  home.shellAliases = {
+    neofetch = "hyfetch";
+  };
+
+  # for zsh
+  # adds itself to ohMyZsh Plugins if ohMyZsh is enabled
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  programs.zsh = {
+    enable = true;
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" "colored-man-pages" ];
+      theme = "lambda";
+    };
+  };
 }

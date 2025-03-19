@@ -1,7 +1,10 @@
 { config, pkgs, lib, ... }:
 
 {
+  home-manager.backupFileExtension = "hmbackup";
   home-manager.users."user" = ./home.nix;
+
+  programs.zsh.enable = true; # The shell is set on system level, home-manager can't do it
 
   users.users."user" = {
     isNormalUser = true;
@@ -12,9 +15,4 @@
     openssh.authorizedKeys.keys = [ ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGGEXP+YFeEihXZGZjtvbthkNayMOXwMLLtugMS7YAdS'' ]; # TODO: ssh key from https://github.com/theverygaming.keys?
     initialPassword = "12345678";
   };
-
-  programs.zsh.enable = true; # TODO: get rid of this if possible
-  environment.shells = with pkgs; [ zsh ];
-
-  hardware.rtl-sdr.enable = true;
 }
