@@ -1,4 +1,4 @@
-{ pkgs, lib, osConfig, config, flakeInputs, ... }:
+{ pkgs, lib, osConfig, config, ... }:
 
 let
   isGui = osConfig.services.xserver.enable;
@@ -29,29 +29,6 @@ in
   programs.home-manager.enable = true;
   home.stateVersion = "23.05";
 
-  nix =  {
-    channels = {
-      nixpkgs = flakeInputs.nixpkgs;
-    };
-    keepOldNixPath = false;
-  };
-
-  home.shellAliases = {
-    neofetch = "hyfetch";
-  };
-
-  # for zsh
-  # adds itself to ohMyZsh Plugins if ohMyZsh is enabled
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-  programs.zsh = {
-    enable = true;
-    oh-my-zsh = {
-      enable = true;
-      plugins = [ "git" "colored-man-pages" ];
-      theme = "lambda";
-    };
-  };
+  custom.flake_channels.enable = true;
+  custom.zsh_config.enable = true;
 }
