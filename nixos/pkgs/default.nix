@@ -1,10 +1,8 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  imports = [
-    ./custom
-    ./misc.nix
-    ./webserver.nix
-    ./k8s.nix
-  ];
+  satdump = pkgs.callPackage ./satdump { };
+  vlfrx-tools = pkgs.callPackage ./vlfrx-tools { };
+  ebnaut = pkgs.callPackage ./ebnaut { };
+  ebsynth = pkgs.callPackage ./ebsynth { };
 }

@@ -26,6 +26,7 @@
         imports = [
           ./modules/common
           ./modules/nixos
+          ./pkgs/override.nix
           (./. + "/hosts/${name}")
           inputs.home-manager.nixosModules.home-manager
         ];

@@ -12,5 +12,7 @@
     ./gaming.nix
     ./radio.nix
     ./office.nix
+    ./k8sadmin.nix
+    ./avstuff.nix
   ];
 }

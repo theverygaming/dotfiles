@@ -21,6 +21,8 @@ in {
         office.enable = lib.mkDefault true;
         radio.enable = lib.mkDefault true;
         social.enable = lib.mkDefault true;
+        k8sadmin.enable = lib.mkDefault true;
+        avstuff.enable = lib.mkDefault true;
       };
     };
   };

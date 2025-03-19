@@ -6,7 +6,7 @@
     ./hardware-configuration.nix # hardware scan results
 
     ../../common
-    ../../pkgs
+    ../../pkgs/stuff.nix
     ../../users/user
   ];
   
