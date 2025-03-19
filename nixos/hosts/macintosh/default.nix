@@ -6,7 +6,6 @@
     ./hardware-configuration.nix # hardware scan results
 
     ../../common
-    ../../pkgs/stuff.nix
     ../../configs/i3.nix
     ../../users/user
   ];

@@ -6,13 +6,14 @@
     ./hardware-configuration.nix # hardware scan results
 
     ../../common
-    ../../pkgs/stuff.nix
     ../../users/user
   ];
   
   custom.profiles.desktop.enable = true;
 
   custom.desktops.gnome.enable = true;
+
+  custom.public_webserver.enable = true;
 
   nixpkgs.system = "x86_64-linux";
 
