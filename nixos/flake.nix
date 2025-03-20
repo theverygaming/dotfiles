@@ -2,7 +2,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    #nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -29,6 +32,7 @@
           ./pkgs/override.nix
           (./. + "/hosts/${name}")
           inputs.home-manager.nixosModules.home-manager
+          inputs.disko.nixosModules.disko
         ];
       };
     } // (with inputs.nixpkgs.lib; listToAttrs (map (x: nameValuePair x {}) (attrNames (filterAttrs (x: type: type == "directory") (builtins.readDir ./hosts)))));
