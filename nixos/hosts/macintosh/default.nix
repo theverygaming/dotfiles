@@ -7,7 +7,7 @@
 
     ../../common
     ../../configs/i3.nix
-    ../../users/user
+    ../../users
   ];
 
   custom.profiles.desktop.enable = true;

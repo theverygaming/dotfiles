@@ -13,6 +13,6 @@
     extraGroups = [ "wheel" "plugdev" "dialout" "docker" ] ++ (lib.optional config.networking.networkmanager.enable "networkmanager"); # TODO: docker group if docker installed
 
     openssh.authorizedKeys.keys = [ ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGGEXP+YFeEihXZGZjtvbthkNayMOXwMLLtugMS7YAdS'' ]; # TODO: ssh key from https://github.com/theverygaming.keys?
-    initialPassword = "12345678";
+    initialPassword = "12345678"; # TODO: hmm... we spin up servers automagically now, this aint great
   };
 }

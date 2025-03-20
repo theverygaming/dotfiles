@@ -6,7 +6,7 @@
     ./hardware-configuration.nix # hardware scan results
 
     ../../common
-    ../../users/user
+    ../../users
   ];
   
   custom.profiles.desktop.enable = true;
