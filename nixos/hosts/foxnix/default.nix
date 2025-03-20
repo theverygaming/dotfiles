@@ -16,8 +16,6 @@
 
   custom.public_webserver.enable = true;
 
-  nixpkgs.system = "x86_64-linux";
-
   # Bootloader.
   boot.loader = {
     efi = {
