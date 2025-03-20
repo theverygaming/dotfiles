@@ -52,6 +52,4 @@
     pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
   };
-
-  hardware.rtl-sdr.enable = true;
 }

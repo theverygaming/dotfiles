@@ -50,8 +50,6 @@
     enableSSHSupport = true;
   };
 
-  hardware.rtl-sdr.enable = true;
-
   # this is a thinkpad meow!!
   # https://www.reddit.com/r/NixOS/comments/1d1v6ev/comment/l603nyi
   powerManagement.powertop.enable = true; # enable powertop auto tuning on startup.
