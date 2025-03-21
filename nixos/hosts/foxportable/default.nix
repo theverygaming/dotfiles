@@ -74,4 +74,7 @@
       STOP_CHARGE_THRESH_BAT0 = 80;
     };
   };
+
+  # i just want to build stuff for the aarch64 VPS...
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 }
