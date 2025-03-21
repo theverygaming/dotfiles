@@ -114,6 +114,14 @@
           cp -r _site $out
         '';
       };
+      # the nix store forces dates to be on the epoch which terribly breaks Caddys Last-Modified header.
+      # So we use ETag based on the store path instead
+      caddy_etag_hack = ''
+        header {
+            ETag "${builtins.hashString "sha256" (builtins.baseNameOf website_built)}"
+            -Last-Modified
+        }
+      '';
     in {
       "m.furrypri.de".extraConfig = ''
         redir https://theverygaming.furrypri.de
@@ -126,6 +134,7 @@
       "http://http.theverygaming.furrypri.de".extraConfig = ''
         encode gzip
         root * ${website_built}
+        ${caddy_etag_hack}
         file_server
         handle_errors {
             @404 {
@@ -133,12 +142,14 @@
             }
             rewrite @404 /err/404.html
             file_server
+            ${caddy_etag_hack}
         }
       '';
 
       "theverygaming.furrypri.de".extraConfig = ''
         encode gzip
         root * ${website_built}
+        ${caddy_etag_hack}
         file_server
         handle_errors {
             @404 {
@@ -146,6 +157,7 @@
             }
             rewrite @404 /err/404.html
             file_server
+            ${caddy_etag_hack}
         }
       '';
 
