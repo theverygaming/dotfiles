@@ -9,7 +9,7 @@
     ../../users
   ];
 
-  custom.profiles.base.enable = true;
+  custom.profiles.server.enable = true;
 
   deployment = {
     targetHost = "vps-1.infra.test.furrypri.de";
@@ -28,14 +28,4 @@
   # Networking
   networking.hostName = "vps-1";
   networking.networkmanager.enable = true;
-
-  # TODO: ssh module // server profile
-  # TODO: fail2ban maybe?
-  services.openssh = {
-    enable = true;
-    ports = [
-      2222
-    ];
-    settings.PasswordAuthentication = false; # aw hell nah
-  };
 }

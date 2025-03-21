@@ -2,8 +2,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    #nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -36,7 +34,8 @@
         ];
       };
     } // (with inputs.nixpkgs.lib; listToAttrs (map (x: nameValuePair x {}) (attrNames (filterAttrs (x: type: type == "directory") (builtins.readDir ./hosts)))));
+    colmenaHive = inputs.colmena.lib.makeHive self.outputs.colmena; # nix run github:zhaofengli/colmena -- apply --on ... --experimental-flake-eval
 
-    nixosConfigurations = (inputs.colmena.lib.makeHive self.colmena).nodes;
+    nixosConfigurations = (inputs.colmena.lib.makeHive self.outputs.colmena).nodes;
   };
 }
