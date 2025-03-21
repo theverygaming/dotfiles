@@ -1,4 +1,4 @@
-{ flakeInputs, ... }:
+{ flakeInputs, pkgs, ... }:
 
 {
   imports = [
@@ -31,10 +31,16 @@
   # Networking
   networking.hostName = "vps-1";
   networking.networkmanager.enable = true;
+  networking.firewall.allowedTCPPorts = [ 
+    53 # DNS
+    80 # HTTP
+    443 # HTTPS
+  ];
+  networking.firewall.allowedUDPPorts = [ 
+    53 # DNS
+  ];
 
   # DNS
-  networking.firewall.allowedTCPPorts = [ 53 ];
-  networking.firewall.allowedUDPPorts = [ 53 ];
   services.nsd = {
     enable = true;
     interfaces = [
@@ -76,6 +82,98 @@
           };
         });
       };
+    };
+  };
+
+  # Website
+  services.caddy = {
+    enable = true;
+    virtualHosts = 
+    let
+      website_built = pkgs.stdenv.mkDerivation rec {
+        pname = "website-built";
+        version = "18737cdccf3b11773cea9b6a4f429aab5933abd4";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "theverygaming";
+          repo = "website";
+          rev = version;
+          sha256 = "sha256-HilQ+H/nFyaEZFOLRF2Ij/ePin/6uccxoE0WCk2iazM=";
+        };
+
+        nativeBuildInputs = [ 
+          pkgs.jekyll
+          pkgs.rubyPackages.jekyll-feed
+        ];
+
+        buildPhase = ''
+          jekyll build
+        '';
+
+        installPhase = ''
+          cp -r _site $out
+        '';
+      };
+    in {
+      "m.furrypri.de".extraConfig = ''
+        redir https://theverygaming.furrypri.de
+      '';
+
+      "http.m.furrypri.de".extraConfig = ''
+        redir http://http.theverygaming.furrypri.de
+      '';
+
+      "http://http.theverygaming.furrypri.de".extraConfig = ''
+        encode gzip
+        root * ${website_built}
+        file_server
+        handle_errors {
+            @404 {
+                expression {http.error.status_code} == 404
+            }
+            rewrite @404 /err/404.html
+            file_server
+        }
+      '';
+
+      "theverygaming.furrypri.de".extraConfig = ''
+        encode gzip
+        root * ${website_built}
+        file_server
+        handle_errors {
+            @404 {
+                expression {http.error.status_code} == 404
+            }
+            rewrite @404 /err/404.html
+            file_server
+        }
+      '';
+
+      "http://".extraConfig = ''
+        header Content-Type text/html
+        respond <<HTML
+            <!DOCTYPE html>
+            <html>
+              <!-- :3 -->
+              <head>
+                <title>:3</title>
+                <meta http-equiv="Refresh" content="5; URL=https://www.youtube-nocookie.com/embed/75KlCpeLo64?si=EgII1K2HQxFhbQUH" />
+                <style>
+                h1 {
+                  margin: 0;
+                  padding: 0;
+                  white-space: nowrap;
+                  font-family: monospace;
+                  font-size: calc(100vw / .625 / 9);
+                }
+                </style>
+              </head>
+              <body>
+                <h1>:3</h1>
+              </body>
+            </html>
+        HTML 200
+      '';
     };
   };
 }
