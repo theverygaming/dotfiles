@@ -12,7 +12,10 @@
   custom.profiles.server.enable = true;
 
   deployment = {
-    targetHost = "vps-1.infra.test.furrypri.de";
+    # also vps-1.infra.test.furrypri.de but the DNS for
+    # test.furrypri.de runs there and is a bit unreliable
+    # for the time being sooo lets use something else for now
+    targetHost = "theverygaming.furrypri.de";
     targetPort = 2222;
     targetUser = "root";
   };
@@ -30,6 +33,8 @@
   networking.networkmanager.enable = true;
 
   # DNS
+  networking.firewall.allowedTCPPorts = [ 53 ];
+  networking.firewall.allowedUDPPorts = [ 53 ];
   services.nsd = {
     enable = true;
     interfaces = [
@@ -50,7 +55,7 @@
             expire = 60 * 60 * 24;
           };
 
-          CAA = letsEncrypt "ssladmin@theverygaming.furrypri.de";  # Common template combinators included
+          CAA = letsEncrypt "ssladmin@theverygaming.furrypri.de";
 
           subdomains = {
             "infra" = {
