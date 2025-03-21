@@ -9,7 +9,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     custom = {
-      profiles.base.enable = true;
+      profiles.base.enable = lib.mkDefault true;
 
       pkggroups = {
         browsers.enable = lib.mkDefault true;
