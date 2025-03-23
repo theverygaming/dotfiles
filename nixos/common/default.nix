@@ -31,9 +31,6 @@
 
   system.stateVersion = "25.05";
 
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.dates = "weekly";
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # tmpfs :3
