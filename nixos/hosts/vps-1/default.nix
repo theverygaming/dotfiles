@@ -92,13 +92,13 @@
     let
       website_built = pkgs.stdenv.mkDerivation rec {
         pname = "website-built";
-        version = "18737cdccf3b11773cea9b6a4f429aab5933abd4";
+        version = "bc4449eeb402869bf7cce6f1228b6267e4964aaf";
 
         src = pkgs.fetchFromGitHub {
           owner = "theverygaming";
           repo = "website";
           rev = version;
-          sha256 = "sha256-HilQ+H/nFyaEZFOLRF2Ij/ePin/6uccxoE0WCk2iazM=";
+          sha256 = "sha256-CnXtN/tOsk9iTQ2pP63degK7miv7GmhyCT8Fvz31gDo=";
         };
 
         nativeBuildInputs = [ 
