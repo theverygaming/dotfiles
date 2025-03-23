@@ -86,6 +86,7 @@
   };
 
   # Website
+  # TODO: use https://github.com/TecharoHQ/anubis -- waiting for https://github.com/NixOS/nixpkgs/pull/392018
   services.caddy = {
     enable = true;
     virtualHosts = 
