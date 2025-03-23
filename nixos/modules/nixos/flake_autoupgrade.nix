@@ -24,13 +24,11 @@ in {
   config = lib.mkIf cfg.enable {
     system.autoUpgrade = {
       enable = true;
-      flake = flakeInputs.self.outPath;
+      flake = "github:theverygaming/dotfiles?dir=nixos";
       flags = [
-        "--update-input"
-        "nixpkgs"
         "--no-write-lock-file"
         "--print-build-logs"
-      ];
+      ] ++ (lib.concatLists (map (x: ["--update-input" x]) (builtins.filter (x: x != "self") (lib.attrNames flakeInputs))));
       dates = (lib.mkOverride 999) cfg.dates;
       randomizedDelaySec = (lib.mkOverride 999) cfg.randomizedDelaySec;
     };
