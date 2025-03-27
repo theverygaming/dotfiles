@@ -77,4 +77,7 @@
 
   # i just want to build stuff for the aarch64 VPS...
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+  sops.defaultSopsFile = flakeInputs.secrets + "/empty.yaml";
+  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 }
