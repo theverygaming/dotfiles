@@ -21,6 +21,17 @@
       url = "github:zhaofengli/colmena";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # this is kind of ass honestly
+    secrets = {
+      url = "git+ssh://git@github.com:/theverygaming/nixos-secrets.git?ref=main";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -41,10 +52,12 @@
           (./. + "/hosts/${name}")
           inputs.home-manager.nixosModules.home-manager
           inputs.disko.nixosModules.disko
+          inputs.sops-nix.nixosModules.sops
         ];
       };
     } // (with inputs.nixpkgs.lib; listToAttrs (map (x: nameValuePair x {}) (attrNames (filterAttrs (x: type: type == "directory") (builtins.readDir ./hosts)))));
-    colmenaHive = inputs.colmena.lib.makeHive self.outputs.colmena; # nix run github:zhaofengli/colmena -- apply --on ... --experimental-flake-eval
+    colmenaHive = inputs.colmena.lib.makeHive self.outputs.colmena;
+    # nix run github:zhaofengli/colmena -- apply --on ... --experimental-flake-eval
 
     nixosConfigurations = (inputs.colmena.lib.makeHive self.outputs.colmena).nodes;
   };

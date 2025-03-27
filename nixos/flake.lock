@@ -174,7 +174,46 @@
         "disko": "disko",
         "dns": "dns",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "secrets": "secrets",
+        "sops-nix": "sops-nix"
+      }
+    },
+    "secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1743073306,
+        "narHash": "sha256-m/Z8nuJjwGevNpM66ks8wb6vRSv+kI8+aTYayjxw/4k=",
+        "ref": "main",
+        "rev": "d909a55f828285594964466234b570c015d2faec",
+        "revCount": 6,
+        "type": "git",
+        "url": "ssh://git@github.com:/theverygaming/nixos-secrets.git"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "ssh://git@github.com:/theverygaming/nixos-secrets.git"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1742700801,
+        "narHash": "sha256-ZGlpUDsuBdeZeTNgoMv+aw0ByXT2J3wkYw9kJwkAS4M=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "67566fe68a8bed2a7b1175fdfb0697ed22ae8852",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "type": "github"
       }
     },
     "stable": {

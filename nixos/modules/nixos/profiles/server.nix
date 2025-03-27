@@ -17,14 +17,5 @@ in {
 
       flake_auto_upgrade.enable = true;
     };
-
-    # TODO: fail2ban maybe?
-    services.openssh = {
-      enable = lib.mkDefault true;
-      ports = lib.mkDefault [
-        2222
-      ];
-      settings.PasswordAuthentication = lib.mkDefault false; # aw hell nah
-    };
   };
 }
