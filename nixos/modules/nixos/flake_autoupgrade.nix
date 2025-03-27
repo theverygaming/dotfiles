@@ -29,7 +29,7 @@ in {
       flags = [
         "--no-write-lock-file"
         "--print-build-logs"
-      ] ++ (lib.concatLists (map (x: ["--update-input" x]) (builtins.filter (x: x != "self") (lib.attrNames flakeInputs))));
+      ] ++ (lib.concatLists (map (x: ["--update-input" x]) (builtins.filter (x: builtins.elem x ["self" "secrets"]) (lib.attrNames flakeInputs))));
       dates = (lib.mkOverride 999) cfg.dates;
       randomizedDelaySec = (lib.mkOverride 999) cfg.randomizedDelaySec;
     };
