@@ -32,6 +32,11 @@
       url = "git+ssh://git@github.com:/theverygaming/nixos-secrets.git?ref=main";
       flake = false;
     };
+
+    microvm = {
+      url = "github:astro/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, ... }: {
@@ -53,6 +58,7 @@
           inputs.home-manager.nixosModules.home-manager
           inputs.disko.nixosModules.disko
           inputs.sops-nix.nixosModules.sops
+          inputs.microvm.nixosModules.host
         ];
       };
     } // (with inputs.nixpkgs.lib; listToAttrs (map (x: nameValuePair x {}) (attrNames (filterAttrs (x: type: type == "directory") (builtins.readDir ./hosts)))));
