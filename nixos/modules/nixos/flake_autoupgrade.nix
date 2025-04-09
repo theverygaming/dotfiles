@@ -25,6 +25,8 @@ in {
   config = lib.mkIf cfg.enable {
     system.autoUpgrade = {
       enable = true;
+      # TODO: this is kinda bad, we don't actually want to pull the latest from github automatically...
+      # This is here because i could not get it to work with inputs.self.outPath
       flake = "github:theverygaming/dotfiles?dir=nixos";
       flags = [
         "--no-write-lock-file"
