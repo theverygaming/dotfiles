@@ -7,6 +7,7 @@
 
     ../../common
     ../../users
+    ../../configs/wireguard_mesh.nix
   ];
 
   custom.profiles.server.enable = true;
