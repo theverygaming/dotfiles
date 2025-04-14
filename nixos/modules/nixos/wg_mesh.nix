@@ -14,13 +14,23 @@ in
     config = mkOption {
       type = types.submodule {
         options = {
-          addrv4NetworkAddress = mkOption {
+          meshv4NetworkAddress = mkOption {
             type = types.str;
-            description = "IPv4 network address for the whole WireGuard network";
+            description = "IPv4 network address seen by the end user";
           };
-          addrv4PrefixLength = mkOption {
+          meshv4PrefixLength = mkOption {
             type = types.int;
-            description = "IPv4 prefix length for the whole WireGuard network";
+            description = "IPv4 prefix length seen by the end user";
+          };
+          getPeerIntIp = mkOption {
+            type = types.anything;
+            description = ''
+              Returns an IP address string in CIDR notation based on the given peerID and isInterfaceAddr flag
+              - If isInterfaceAddr is false, it returns either an IPv4 (/32) or IPv6 (/128) address assigned to the peer
+              - If isInterfaceAddr is true, it returns the same address as above, but with the full internal network
+                subnet (IPv4 or IPv6) assigned to the peer's WireGuard interface
+              This address is used internally for configuring the WireGuard interface on the specified peer
+            '';
           };
           hosts = mkOption {
             type = types.attrsOf (
@@ -33,11 +43,23 @@ in
                       description = "WireGuard UDP port used on this host";
                     };
 
+                    peerId = mkOption {
+                      type = types.anything;
+                      description = ''
+                        Something that uniquely identifies this peer (used by getPeerIntIp)
+                      '';
+                    };
+
                     publicKey = mkOption {
                       type = types.str;
                       description = ''
                         WireGuard public key for this host
                       '';
+                    };
+
+                    meshNetworkAddress = mkOption {
+                      type = types.str;
+                      description = "IPv4 network address in the mesh for this node";
                     };
 
                     int = {
@@ -52,20 +74,7 @@ in
                         types.submodule {
                           options = {
                             ips = mkOption {
-                              type = types.listOf (
-                                types.submodule {
-                                  options = {
-                                    type = mkOption {
-                                      type = types.enum [ "v4" ];
-                                      description = "IP type";
-                                    };
-                                    addr = mkOption {
-                                      type = types.str;
-                                      description = "IP address";
-                                    };
-                                  };
-                                }
-                              );
+                              type = types.listOf types.str;
                               description = "List of IPs for the network";
                             };
                           };
@@ -91,10 +100,10 @@ in
       '';
     };
 
-    getInterface = mkOption {
-      type = types.anything;
+    interface = mkOption {
+      type = types.str;
       description = ''
-        A function that, based on a number input (starting from zero), returns a WireGuard interface to use (wgX) as string
+        WireGuard interface to use (wgX)
       '';
     };
 
@@ -155,7 +164,7 @@ in
               )
             };
         in
-        "${(builtins.head firstReachablePeerNetwork.ips).addr}:${builtins.toString peerHost.port}";
+        "${builtins.head firstReachablePeerNetwork.ips}:${builtins.toString peerHost.port}";
 
       currentHostName = config.networking.hostName;
       currentHost = cfg.config.hosts."${currentHostName}";
@@ -170,7 +179,35 @@ in
       };
 
       networking.wireguard.enable = true;
-      networking.wireguard.interfaces = builtins.listToAttrs (
+
+      networking.wireguard.interfaces."${cfg.interface}" = {
+        ips = [ (cfg.config.getPeerIntIp currentHost.peerId true) ];
+        listenPort = currentHost.port;
+
+        privateKeyFile = cfg.privateKeyFile;
+
+        peers =
+          let
+            peerDefaults = peerName: peer: {
+              name = peerName;
+              publicKey = peer.publicKey;
+              allowedIPs = [
+                (cfg.config.getPeerIntIp peer.peerId false)
+              ];
+              persistentKeepalive = 25;
+            };
+          in
+          (lib.attrsets.mapAttrsToList (
+            peerName: peer:
+            {
+              endpoint = peerEndpoint currentHostName peerName;
+            }
+            // (peerDefaults peerName peer)
+          ) (reachableHostsFromHost currentHostName))
+          ++ (lib.attrsets.mapAttrsToList peerDefaults (hostsThatCanReachHost currentHostName));
+      };
+
+      /*networking.wireguard.interfaces = builtins.listToAttrs (
         let
           interfaceGen =
             {
@@ -311,7 +348,7 @@ in
             )
           ) (lib.range 0 (listHostsCanReachLen - 1))
         )
-      );
+      );*/
 
       ## Routing
 
