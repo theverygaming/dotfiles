@@ -13,8 +13,8 @@
     config = {
       meshv4NetworkAddress = "10.13.12.0/24";
       getPeerIntIp =
-        peerId: offset: isInterfaceAddr: withSubnetMask: isNetworkAddress:
-        "172.25.${builtins.toString peerId}.${
+        peerId: netOffset: offset: isInterfaceAddr: withSubnetMask: isNetworkAddress:
+        "172.${builtins.toString (25 + netOffset)}.${builtins.toString peerId}.${
           builtins.toString (if isNetworkAddress then 0 else (offset + 1))
         }${(if withSubnetMask then (if isInterfaceAddr then "/16" else "/24") else "")}";
       hosts = {

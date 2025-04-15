@@ -22,7 +22,7 @@ in
             type = types.anything;
             # TODO: description is outdated. Missing withSubnetMask info and offset
             description = ''
-              Returns an IP address string in CIDR notation based on the given peerID, offset and the isInterfaceAddr, isNetworkAddress and withSubnetMask flags
+              Returns an IP address string in CIDR notation based on the given peerID, netOffset, offset and the isInterfaceAddr, isNetworkAddress and withSubnetMask flags
               - If isInterfaceAddr is false, it returns either an IPv4 (/24) or IPv6 (/128) address assigned to the peer
               - If isInterfaceAddr is true, it returns the same address as above, but with the full internal network
                 subnet (IPv4 or IPv6) assigned to the peer's WireGuard interface
@@ -169,8 +169,8 @@ in
       # GRE stuff
       greCreate = peerName: peer: {
         type = "tun";
-        remote = cfg.config.getPeerIntIp peer.peerId 0 false false false;
-        local = cfg.config.getPeerIntIp currentHost.peerId 0 false false false;
+        remote = cfg.config.getPeerIntIp peer.peerId 0 0 false false false;
+        local = cfg.config.getPeerIntIp currentHost.peerId 0 0 false false false;
         dev = cfg.interface;
       };
       greInterfaceList =
@@ -199,7 +199,7 @@ in
       networking.wireguard.enable = true;
 
       networking.wireguard.interfaces."${cfg.interface}" = {
-        ips = [ (cfg.config.getPeerIntIp currentHost.peerId 0 true true false) ];
+        ips = [ (cfg.config.getPeerIntIp currentHost.peerId 0 0 true true false) ];
         listenPort = currentHost.port;
 
         privateKeyFile = cfg.privateKeyFile;
@@ -210,7 +210,7 @@ in
               name = peerName;
               publicKey = peer.publicKey;
               allowedIPs = [
-                (cfg.config.getPeerIntIp peer.peerId 0 false true true)
+                (cfg.config.getPeerIntIp peer.peerId 0 0 false true true)
               ];
               persistentKeepalive = 25;
             };
@@ -233,17 +233,24 @@ in
         lib.attrsets.mapAttrsToList (n: v: {
           name = n;
           value = {
-            ipv4.addresses = (
-              if v.idx == 0 then
-                [
-                  {
-                    address = currentHost.meshNodeAddress;
-                    prefixLength = 32;
-                  }
-                ]
-              else
-                [ ]
-            );
+            ipv4.addresses =
+              [
+                {
+                  address = (cfg.config.getPeerIntIp currentHost.peerId 1 (1 + v.idx) false false false);
+                  prefixLength = 32;
+                }
+              ]
+              ++ (
+                if v.idx == 0 then
+                  [
+                    {
+                      address = currentHost.meshNodeAddress;
+                      prefixLength = 32;
+                    }
+                  ]
+                else
+                  [ ]
+              );
             tempAddress = "default"; # should generate a link-local IPv6 address?
           };
         }) (greInterfaces true)
@@ -267,21 +274,26 @@ in
         );
         # FIXME: will the random-id be okay - esp since this is NixOS? docs say
         # "the default is to use persistent router-ids derived from the MAC address of the first interface"
+        # FIXME: hardcoded 172.26.x.x IPs are no good. Should be user-controlled
         extraConfig = ''
           protocol-port 6696
           random-id true
           debug 2
 
           in ip ${cfg.config.meshv4NetworkAddress} allow
+          in ip 172.26.0.0/16 allow
           in deny
 
           out ip ${cfg.config.meshv4NetworkAddress} allow
+          out ip 172.26.0.0/16 allow
           out deny
 
           redistribute ip ${cfg.config.meshv4NetworkAddress} allow
+          redistribute ip 172.26.0.0/16 allow
           redistribute deny
 
           install ip ${cfg.config.meshv4NetworkAddress} allow
+          install ip 172.26.0.0/16 allow
           install deny
         '';
       };
