@@ -254,7 +254,9 @@ in
       # NOTE: routing in the kernel is enabled for us by babeld!
       services.babeld = {
         enable = true;
-        interfaceDefaults = { };
+        interfaceDefaults = {
+          "v4-via-v6" = "false";
+        };
         interfaces = (
           builtins.listToAttrs (
             builtins.map (n: {
