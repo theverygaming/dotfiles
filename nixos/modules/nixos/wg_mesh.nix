@@ -235,11 +235,14 @@ in
             name = n;
             value = {
               ipv4.addresses = [
-                {
+                /*{
                   address = (cfg.config.getPeerIntIp currentHost.peerId (1 + v.idx) false false false);
                   prefixLength = 32;
-                }
-              ];
+                }*/
+              ] ++ (if v.idx == 0 then [{
+                address = currentHost.meshNodeAddress;
+                prefixLength = 32;
+              }] else []);
               /*ipv6.addresses = [
                 # Babel link-local address
                 {
@@ -306,7 +309,7 @@ in
             };
           }) (greInterfaces true)
         )
-        // {
+        /*// {
           "msh0" = {
             virtual = true;
             virtualType = "tun";
@@ -326,7 +329,7 @@ in
               }
             ];
           };
-        };
+        }*/;
 
       ## Routing
 
@@ -344,7 +347,7 @@ in
             }) (builtins.attrNames (greInterfaces false))
           ))
           // {
-            "msh0" = { };
+            #"msh0" = { };
           };
         # FIXME: will the random-id be okay - esp since this is NixOS? docs say
         # "the default is to use persistent router-ids derived from the MAC address of the first interface"
@@ -366,6 +369,8 @@ in
           install deny
         '';
       };
+
+      networking.firewall.enable = false;
 
       # allow babeld UDP port for the interfaces it uses
       networking.firewall.interfaces =
