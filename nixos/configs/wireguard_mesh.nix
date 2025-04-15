@@ -11,8 +11,12 @@
     interface = "wgm0";
     privateKeyFile = config.sops.secrets.wireguard_private.path;
     config = {
-      meshv4PrefixLength = 24;
-      getPeerIntIp = peerId: offset: isInterfaceAddr: withSubnetMask: isNetworkAddress: "172.25.${builtins.toString peerId}.${builtins.toString (if isNetworkAddress then 0 else (offset + 1))}${(if withSubnetMask then (if isInterfaceAddr then "/16" else "/24") else "")}";
+      meshv4NetworkAddress = "10.13.12.0/24";
+      getPeerIntIp =
+        peerId: offset: isInterfaceAddr: withSubnetMask: isNetworkAddress:
+        "172.25.${builtins.toString peerId}.${
+          builtins.toString (if isNetworkAddress then 0 else (offset + 1))
+        }${(if withSubnetMask then (if isInterfaceAddr then "/16" else "/24") else "")}";
       hosts = {
         "vps-1" = {
           peerId = 1;
@@ -40,15 +44,21 @@
               ];
             };
           };
-          reachableNetworks = [ "internet" "foxden" ];
+          reachableNetworks = [
+            "internet"
+            "foxden"
+          ];
         };
         "foxportable" = {
           peerId = 3;
           publicKey = "61OX9FRj85BXMM2nl/teQd0IhURVjmxuXriqp8VEKGw=";
           port = 65436;
           meshNodeAddress = "10.13.12.3";
-          networks = {};
-          reachableNetworks = [ "internet" "foxden" ];
+          networks = { };
+          reachableNetworks = [
+            "internet"
+            "foxden"
+          ];
         };
       };
     };

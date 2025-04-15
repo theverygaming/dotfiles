@@ -14,9 +14,9 @@ in
     config = mkOption {
       type = types.submodule {
         options = {
-          meshv4PrefixLength = mkOption {
-            type = types.int;
-            description = "IPv4 prefix length seen by the end user";
+          meshv4NetworkAddress = mkOption {
+            type = types.str;
+            description = "IPv4 network address including prefix length (e.g. 1.2.3.0/24) seen by the end user";
           };
           getPeerIntIp = mkOption {
             type = types.anything;
@@ -229,313 +229,69 @@ in
 
       networking.greTunnels = greInterfaces false;
 
-      networking.interfaces =
-        builtins.listToAttrs (
-          lib.attrsets.mapAttrsToList (n: v: {
-            name = n;
-            value = {
-              ipv4.addresses = [
-                /*{
-                  address = (cfg.config.getPeerIntIp currentHost.peerId (1 + v.idx) false false false);
-                  prefixLength = 32;
-                }*/
-              ] ++ (if v.idx == 0 then [{
-                address = currentHost.meshNodeAddress;
-                prefixLength = 32;
-              }] else []);
-              /*ipv6.addresses = [
-                # Babel link-local address
-                {
-                  address = "fe80:${
-                    # Babel needs a link-local IPv6 address that is unique at least on each link.
-                    # We generate an address based on this machine's name, which should be unique!
-                    # I'm sorry. I started writing this at 05:30am and finished at 06:33am
-                    # Also, this breaks if at least two machine's honstnames start with the same N (see below) characters
-                    # but if that is the case i think something else is seriously wrong
-                    let
-                      strToBytes = str: builtins.map lib.strings.charToInt (lib.stringToCharacters str);
-                      asciiByteToHex = ascii: (if ascii < 16 then "0" else "") + (lib.toHexString ascii);
-                      byteArrToHexString = arr: builtins.foldl' (s: el: s + (asciiByteToHex el)) "" arr;
-                      padString =
-                        str: max: pad:
-                        if builtins.stringLength str > max then
-                          builtins.substring 0 max str
-                        else
-                          lib.concatStrings ([ str ] ++ (builtins.genList (_: pad) (max - (builtins.stringLength str))));
-                      splitIntoChunks =
-                        list: chunkSize:
-                        builtins.foldl' (
-                          acc: idx:
-                          acc
-                          ++ [
-                            (lib.take chunkSize (lib.drop (idx * chunkSize) list))
-                          ]
-                        ) [ ] (lib.range 0 (((builtins.length list) / chunkSize) - 1));
-                    in
-                    if
-                      lib.asserts.assertMsg
-                        (
-                          let
-                            hosts = builtins.map (x: padString x (14 - 1) "e") (builtins.attrNames cfg.config.hosts);
-                          in
-                          !(builtins.any (s: (builtins.length (builtins.filter (x: x == s) hosts)) > 1) hosts)
-                        )
-                        "two hostnames start with the same 14-1 characters. This breaks the cursed wireguard link-local address assignment thingy"
-                    then
-                      lib.concatStringsSep ":" (
-                        builtins.map byteArrToHexString (
-                          splitIntoChunks (
-                            [
-                              (
-                                if
-                                  (lib.asserts.assertMsg (v.idx < 256) "link-local address assignment skill issue (v.idx too high)!")
-                                then
-                                  v.idx
-                                else
-                                  0
-                              )
-                            ]
-                            ++ (strToBytes (padString currentHostName (14 - 1) "e"))
-                          ) 2
-                        )
-                      )
-                    else
-                      "UNREACHABLE"
-                  }";
-                  prefixLength = 16;
-                }
-              ];*/
-              tempAddress = "default"; # should generate a link-local IPv6 address?
-            };
-          }) (greInterfaces true)
-        )
-        /*// {
-          "msh0" = {
-            virtual = true;
-            virtualType = "tun";
-            ipv4.addresses = [
-              {
-                address = currentHost.meshNodeAddress;
-                prefixLength = 32;
-              }
-            ];
-            ipv6.addresses = [
-              # link-local for babel --even though this interface will
-              # always be essentially dead babel still needs this otherwise i think it will
-              # just ignore the interface and throw errors everywhere
-              {
-                address = "fe80::ac19:fe02";
-                prefixLength = 64;
-              }
-            ];
+      networking.interfaces = builtins.listToAttrs (
+        lib.attrsets.mapAttrsToList (n: v: {
+          name = n;
+          value = {
+            ipv4.addresses = (
+              if v.idx == 0 then
+                [
+                  {
+                    address = currentHost.meshNodeAddress;
+                    prefixLength = 32;
+                  }
+                ]
+              else
+                [ ]
+            );
+            tempAddress = "default"; # should generate a link-local IPv6 address?
           };
-        }*/;
+        }) (greInterfaces true)
+      );
 
       ## Routing
 
       # NOTE: routing in the kernel is enabled for us by babeld!
       services.babeld = {
         enable = true;
-        interfaceDefaults = {
-
-        };
-        interfaces =
-          (builtins.listToAttrs (
+        interfaceDefaults = { };
+        interfaces = (
+          builtins.listToAttrs (
             builtins.map (n: {
               name = n;
               value = { };
             }) (builtins.attrNames (greInterfaces false))
-          ))
-          // {
-            #"msh0" = { };
-          };
+          )
+        );
         # FIXME: will the random-id be okay - esp since this is NixOS? docs say
         # "the default is to use persistent router-ids derived from the MAC address of the first interface"
         extraConfig = ''
           protocol-port 6696
           random-id true
-          debug 2
 
-          in ip 10.13.12.0/24 allow
+          in ip ${cfg.config.meshv4NetworkAddress} allow
           in deny
 
-          out ip 10.13.12.0/24 allow
+          out ip ${cfg.config.meshv4NetworkAddress} allow
           out deny
 
-          redistribute ip 10.13.12.0/24 allow
+          redistribute ip ${cfg.config.meshv4NetworkAddress} allow
           redistribute deny
 
-          install ip 10.13.12.0/24 allow
+          install ip ${cfg.config.meshv4NetworkAddress} allow
           install deny
         '';
       };
 
-      networking.firewall.enable = false;
-
       # allow babeld UDP port for the interfaces it uses
-      networking.firewall.interfaces =
-        builtins.listToAttrs (
-          lib.attrsets.mapAttrsToList (n: v: {
-            name = n;
-            value = {
-              allowedUDPPorts = [ 6696 ];
-            };
-          }) (greInterfaces true)
-        );
-
-      /*
-        networking.wireguard.interfaces = builtins.listToAttrs (
-          let
-            interfaceGen =
-              {
-                peerName,
-                peer,
-                hasEndpoint,
-                interfaceIdx,
-              }:
-              {
-                ips = [
-                  "${currentHost.int.addrv4prefix}.${builtins.toString (interfaceIdx+1)}/32"
-                  # Babel link-local address
-                  "fe80:${
-                    # Babel needs a link-local IPv6 address that is unique at least on each link.
-                    # We generate an address based on this machine's name, which should be unique!
-                    # I'm sorry. I started writing this at 05:30am and finished at 06:33am
-                    # Also, this breaks if at least two machine's honstnames start with the same N (see below) characters
-                    # but if that is the case i think something else is seriously wrong
-                    let
-                      strToBytes = str: builtins.map lib.strings.charToInt (lib.stringToCharacters str);
-                      asciiByteToHex = ascii: (if ascii < 16 then "0" else "") + (lib.toHexString ascii);
-                      byteArrToHexString = arr: builtins.foldl' (s: el: s + (asciiByteToHex el)) "" arr;
-                      padString =
-                        str: max: pad:
-                        if builtins.stringLength str > max then
-                          builtins.substring 0 max str
-                        else
-                          lib.concatStrings ([ str ] ++ (builtins.genList (_: pad) (max - (builtins.stringLength str))));
-                      splitIntoChunks =
-                        list: chunkSize:
-                        builtins.foldl' (
-                          acc: idx:
-                          acc
-                          ++ [
-                            (lib.take chunkSize (lib.drop (idx * chunkSize) list))
-                          ]
-                        ) [ ] (lib.range 0 (((builtins.length list) / chunkSize) - 1));
-                    in
-                    if
-                      lib.asserts.assertMsg
-                        (
-                          let
-                            hosts = builtins.map (x: padString x (14 - 1) "e") (builtins.attrNames cfg.config.hosts);
-                          in
-                          !(builtins.any (s: (builtins.length (builtins.filter (x: x == s) hosts)) > 1) hosts)
-                        )
-                        "two hostnames start with the same 14-1 characters. This breaks the cursed wireguard link-local address assignment thingy"
-                    then
-                      lib.concatStringsSep ":" (
-                        builtins.map byteArrToHexString (
-                          splitIntoChunks (
-                            [
-                              (
-                                if
-                                  (lib.asserts.assertMsg (
-                                    interfaceIdx < 256
-                                  ) "link-local address assignment skill issue (interfaceIdx too high)!")
-                                then
-                                  interfaceIdx
-                                else
-                                  0
-                              )
-                            ]
-                            ++ (strToBytes (padString currentHostName (14 - 1) "e"))
-                          ) 2
-                        )
-                      )
-                    else
-                      "UNREACHABLE"
-                  }/16"
-                ];
-                listenPort = currentHost.port + interfaceIdx;
-
-                privateKeyFile = cfg.privateKeyFile;
-
-                allowedIPsAsRoutes = false; # Babel's job!
-
-                peers = [
-                  (
-                    {
-                      name = peerName;
-                      publicKey = peer.publicKey;
-                      allowedIPs = [
-                        "${cfg.config.addrv4NetworkAddress}/${builtins.toString cfg.config.addrv4PrefixLength}"
-                        # Babel uses IPv6 link-local, unicast and multicast addresses
-                        "fe80::/64"
-                        "ff02::1:6/128"
-                      ];
-                      persistentKeepalive = 25;
-                    }
-                    // (
-                      if hasEndpoint then
-                        {
-                          endpoint = peerEndpoint currentHostName peerName;
-                        }
-                      else
-                        { }
-                    )
-                  )
-                ];
-
-              };
-            listReachableHostsFromHost = lib.attrsets.attrsToList (reachableHostsFromHost currentHostName);
-            listReachableHostsFromHostLen = builtins.length listReachableHostsFromHost;
-            listHostsCanReach = lib.attrsets.attrsToList (hostsThatCanReachHost currentHostName);
-            listHostsCanReachLen = builtins.length listHostsCanReach;
-          in
-          (
-            builtins.map (i: {
-              name = cfg.getInterface i;
-              value = interfaceGen (
-                let
-                  el = builtins.elemAt listReachableHostsFromHost i;
-                in
-                {
-                  peerName = el.name;
-                  peer = el.value;
-                  hasEndpoint = true;
-                  interfaceIdx = i;
-                }
-              );
-            }) (lib.range 0 (listReachableHostsFromHostLen - 1))
-            ++ builtins.map (
-              i:
-              (
-                let
-                  el = builtins.elemAt listHostsCanReach i;
-                in
-                {
-                  name = cfg.getInterface (i + listReachableHostsFromHostLen);
-                  value = interfaceGen {
-                    peerName = el.name;
-                    peer = el.value;
-                    hasEndpoint = false;
-                    interfaceIdx = i + listReachableHostsFromHostLen;
-                  };
-                }
-              )
-            ) (lib.range 0 (listHostsCanReachLen - 1))
-          )
-        );
-      */
-
-      ## Routing
-
-      /*
-        boot.kernel.sysctl = {
-          "net.ipv4.conf.all.forwarding" = true;
-          "net.ipv6.conf.all.forwarding" = true;
-        };
-      */
+      networking.firewall.interfaces = builtins.listToAttrs (
+        lib.attrsets.mapAttrsToList (n: v: {
+          name = n;
+          value = {
+            allowedUDPPorts = [ 6696 ];
+          };
+        }) (greInterfaces true)
+      );
     }
   );
 }
