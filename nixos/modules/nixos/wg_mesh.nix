@@ -270,6 +270,7 @@ in
         extraConfig = ''
           protocol-port 6696
           random-id true
+          debug 2
 
           in ip ${cfg.config.meshv4NetworkAddress} allow
           in deny
