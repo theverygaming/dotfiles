@@ -11,15 +11,14 @@
     interface = "wgm0";
     privateKeyFile = config.sops.secrets.wireguard_private.path;
     config = {
-      meshv4NetworkAddress = "10.13.12.0";
       meshv4PrefixLength = 24;
-      getPeerIntIp = peerId: isInterfaceAddr: "172.25.254.${builtins.toString peerId}/${if isInterfaceAddr then "24" else "32"}";
+      getPeerIntIp = peerId: offset: isInterfaceAddr: withSubnetMask: isNetworkAddress: "172.25.${builtins.toString peerId}.${builtins.toString (if isNetworkAddress then 0 else (offset + 1))}${(if withSubnetMask then (if isInterfaceAddr then "/16" else "/24") else "")}";
       hosts = {
         "vps-1" = {
           peerId = 1;
           publicKey = "3L9OTQ9q534ouK1pn1g2xq9foAOiFU9NDOS3kMT1siE=";
           port = 65436;
-          meshNetworkAddress = "10.13.12.1";
+          meshNodeAddress = "10.13.12.1";
           networks = {
             "internet" = {
               ips = [
@@ -33,7 +32,7 @@
           peerId = 2;
           publicKey = "OkFYdhclX4kykKHV1AZ+Nlh+mHfiNmhyQ/3kd1Su1yY=";
           port = 65436;
-          meshNetworkAddress = "10.13.12.2";
+          meshNodeAddress = "10.13.12.2";
           networks = {
             "foxden" = {
               ips = [
@@ -47,7 +46,7 @@
           peerId = 3;
           publicKey = "61OX9FRj85BXMM2nl/teQd0IhURVjmxuXriqp8VEKGw=";
           port = 65436;
-          meshNetworkAddress = "10.13.12.3";
+          meshNodeAddress = "10.13.12.3";
           networks = {};
           reachableNetworks = [ "internet" "foxden" ];
         };
