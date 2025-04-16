@@ -62,20 +62,27 @@
   };
 
   # Website
-  # TODO: use https://github.com/TecharoHQ/anubis -- waiting for https://github.com/NixOS/nixpkgs/pull/392018
+  services.anubis.instances."website" = {
+    settings = {
+      TARGET = "http://127.0.0.1:40001";
+      BIND_NETWORK = "tcp";
+      BIND = "127.0.0.1:40000";
+      SERVE_ROBOTS_TXT = true;
+    };
+  };
   services.caddy = {
     enable = true;
     virtualHosts = 
     let
       website_built = pkgs.stdenv.mkDerivation rec {
         pname = "website-built";
-        version = "bc4449eeb402869bf7cce6f1228b6267e4964aaf";
+        version = "7f2fa0e4b9ca11b39f1fe1f79bda5cc06c03095d";
 
         src = pkgs.fetchFromGitHub {
           owner = "theverygaming";
           repo = "website";
           rev = version;
-          sha256 = "sha256-CnXtN/tOsk9iTQ2pP63degK7miv7GmhyCT8Fvz31gDo=";
+          sha256 = "sha256-kXrIwj3Iwlic9ZgpcIEe3r1WAu6fHAy/4dVcm7OJgQM=";
         };
 
         nativeBuildInputs = [ 
@@ -104,12 +111,8 @@
         redir https://theverygaming.furrypri.de
       '';
 
-      "http.m.furrypri.de".extraConfig = ''
-        redir http://http.theverygaming.furrypri.de
-      '';
-
-      "http://http.theverygaming.furrypri.de".extraConfig = ''
-        encode gzip
+      "http://theverygaming.furrypri.de:40001".extraConfig = ''
+        bind 127.0.0.1
         root * ${website_built}
         ${caddy_etag_hack}
         file_server
@@ -125,17 +128,7 @@
 
       "theverygaming.furrypri.de".extraConfig = ''
         encode gzip
-        root * ${website_built}
-        ${caddy_etag_hack}
-        file_server
-        handle_errors {
-            @404 {
-                expression {http.error.status_code} == 404
-            }
-            rewrite @404 /err/404.html
-            file_server
-            ${caddy_etag_hack}
-        }
+        reverse_proxy http://127.0.0.1:40000
       '';
 
       "http://".extraConfig = ''
