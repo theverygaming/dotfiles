@@ -13,9 +13,6 @@
   custom.profiles.server.enable = true;
 
   deployment = {
-    # also vps-1.infra.test.furrypri.de but the DNS for
-    # test.furrypri.de runs there and is a bit unreliable
-    # for the time being sooo lets use something else for now
     targetHost = "amdE350.local.infra.test.furrypri.de";
     targetPort = 2222;
     targetUser = "root";
