@@ -227,6 +227,14 @@ in
 
       ## GRE and network interfaces
 
+      # TODO: interfaces seem to be a little messy when starting (no error only on 2nd try)? Reproudce by applying without wireguard and then adding it back
+      # Starting GRE Tunnel Interface gre3...
+      # gre3-netdev-start[2533]: RTNETLINK answers: File exists
+      # gre3-netdev.service: Main process exited, code=exited, status=2/INVALIDARGUMENT
+      # gre3-netdev-post-stop[2564]: Cannot find device "gre3"
+      # gre3-netdev.service: Failed with result 'exit-code'.
+      # Failed to start GRE Tunnel Interface gre3.
+
       networking.greTunnels = greInterfaces false;
 
       networking.interfaces = builtins.listToAttrs (

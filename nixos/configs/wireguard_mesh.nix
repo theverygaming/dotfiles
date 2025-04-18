@@ -60,6 +60,23 @@
             "foxden"
           ];
         };
+        "amdE350" = {
+          peerId = 4;
+          publicKey = "XaBMnHu4hC22QrPa1FfJVqlOEFHVDKj6niXQ0KxqF3k=";
+          port = 65436;
+          meshNodeAddress = "10.13.12.4";
+          networks = {
+            "foxden" = {
+              ips = [
+                "10.0.0.124"
+              ];
+            };
+          };
+          reachableNetworks = [
+            "internet"
+            "foxden"
+          ];
+        };
       };
     };
   };
