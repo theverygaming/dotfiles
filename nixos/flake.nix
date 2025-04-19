@@ -76,7 +76,7 @@
           )
         );
       colmenaHive = inputs.colmena.lib.makeHive self.outputs.colmena;
-      # nix run github:zhaofengli/colmena -- apply --on ... --experimental-flake-eval
+      # nix run github:zhaofengli/colmena -- apply --on ... --experimental-flake-eval --verbose --show-trace
 
       nixosConfigurations = (inputs.colmena.lib.makeHive self.outputs.colmena).nodes;
     };

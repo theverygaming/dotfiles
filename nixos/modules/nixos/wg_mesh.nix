@@ -207,6 +207,8 @@ in
       # If it's used anywhere else later maybe this should be moved? Honestly idk though..
       systemd.network.enable = true;
       systemd.network.wait-online.enable = false; # systemd-networkd does not handle our connection to the internet so this would be broken otherwise
+      # systemd-networkd automatically enables systemd-resolved which we DO NOT want especially on servers that run nameservers..
+      services.resolved.enable = false;
 
       # big thanks to https://www.kepstin.caa/blog/babel-routing-over-wireguard-for-the-tubes/ :3
       # and https://www.privateproxyguide.com/creating-a-vpn-based-mesh-network-using-babel-and-wireguard/
