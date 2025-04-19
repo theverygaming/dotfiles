@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.desktops.gnome;
-in {
+in
+{
   options.custom.desktops.gnome = {
     enable = lib.mkEnableOption "Enable GNOME desktop";
   };
@@ -12,26 +18,29 @@ in {
     services.xserver.displayManager.gdm.enable = true;
     services.xserver.desktopManager.gnome.enable = true;
 
-    environment.gnome.excludePackages = (with pkgs; [
-      gnome-tour
-      gnome-photos
-      cheese # webcam tool
-      gnome-terminal
-      epiphany # web browser
-      geary # email reader
-      evince # document viewer
-      totem # video player
-      gnome-calculator
-      gnome-calendar
-      gnome-music
-      tali # poker game
-      iagno # go game
-      hitori # sudoku game
-      atomix # puzzle game
-      gnome-maps
-      gnome-contacts
-      gnome-clocks
-      gnome-weather
-    ]);
+    environment.gnome.excludePackages = (
+      with pkgs;
+      [
+        gnome-tour
+        gnome-photos
+        cheese # webcam tool
+        gnome-terminal
+        epiphany # web browser
+        geary # email reader
+        evince # document viewer
+        totem # video player
+        gnome-calculator
+        gnome-calendar
+        gnome-music
+        tali # poker game
+        iagno # go game
+        hitori # sudoku game
+        atomix # puzzle game
+        gnome-maps
+        gnome-contacts
+        gnome-clocks
+        gnome-weather
+      ]
+    );
   };
 }

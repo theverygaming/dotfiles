@@ -1,4 +1,9 @@
-{ config, pkgs, flakeInputs, ... }:
+{
+  config,
+  pkgs,
+  flakeInputs,
+  ...
+}:
 
 {
   imports = [
@@ -9,7 +14,7 @@
     ../../users
     ../../configs/wireguard_mesh.nix
   ];
-  
+
   custom.profiles.desktop.enable = true;
 
   custom.desktops.gnome.enable = true;

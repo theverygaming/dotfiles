@@ -1,17 +1,25 @@
-{ pkgs, lib, osConfig, config, ... }:
+{
+  pkgs,
+  lib,
+  osConfig,
+  config,
+  ...
+}:
 
 let
   isGui = osConfig.services.xserver.enable;
 in
 {
-  imports = [
-    ../../modules/common
-    ../../modules/home-manager
-  ] ++ builtins.concatLists [
-    (lib.optional osConfig.services.xserver.desktopManager.gnome.enable ./gui/gnome.nix)
-    (lib.optional osConfig.services.xserver.desktopManager.xfce.enable ./gui/xfce.nix)
-    (lib.optional osConfig.programs.sway.enable ./gui/sway.nix)
-  ];
+  imports =
+    [
+      ../../modules/common
+      ../../modules/home-manager
+    ]
+    ++ builtins.concatLists [
+      (lib.optional osConfig.services.xserver.desktopManager.gnome.enable ./gui/gnome.nix)
+      (lib.optional osConfig.services.xserver.desktopManager.xfce.enable ./gui/xfce.nix)
+      (lib.optional osConfig.programs.sway.enable ./gui/sway.nix)
+    ];
 
   home.username = "user";
   home.homeDirectory = "/home/user";

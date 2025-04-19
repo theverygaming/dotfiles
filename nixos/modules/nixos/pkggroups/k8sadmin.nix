@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.pkggroups.k8sadmin;
-in {
+in
+{
   options.custom.pkggroups.k8sadmin = {
     enable = lib.mkEnableOption "Enable k8s administration packages";
   };

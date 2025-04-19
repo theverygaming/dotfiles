@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.pkggroups.core;
-in {
+in
+{
   options.custom.pkggroups.core = {
     enable = lib.mkEnableOption "Enable core packages";
   };

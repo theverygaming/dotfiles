@@ -1,9 +1,15 @@
-{ config, lib, flakeInputs, ... }:
+{
+  config,
+  lib,
+  flakeInputs,
+  ...
+}:
 
 # TODO: whether this runs successfully or not should be monitored
 let
   cfg = config.custom.flake_auto_upgrade;
-in {
+in
+{
   options.custom.flake_auto_upgrade = {
     enable = lib.mkEnableOption "Enable automatic upgrades for flakes";
     dates = lib.mkOption {
@@ -28,10 +34,27 @@ in {
       # TODO: this is kinda bad, we don't actually want to pull the latest from github automatically...
       # This is here because i could not get it to work with inputs.self.outPath
       flake = "github:theverygaming/dotfiles?dir=nixos";
-      flags = [
-        "--no-write-lock-file"
-        "--print-build-logs"
-      ] ++ (lib.concatLists (map (x: ["--update-input" x]) (builtins.filter (x: !builtins.elem x ["self" "secrets"]) (lib.attrNames flakeInputs))));
+      flags =
+        [
+          "--no-write-lock-file"
+          "--print-build-logs"
+        ]
+        ++ (lib.concatLists (
+          map
+            (x: [
+              "--update-input"
+              x
+            ])
+            (
+              builtins.filter (
+                x:
+                !builtins.elem x [
+                  "self"
+                  "secrets"
+                ]
+              ) (lib.attrNames flakeInputs)
+            )
+        ));
       dates = (lib.mkOverride 999) cfg.dates;
       randomizedDelaySec = (lib.mkOverride 999) cfg.randomizedDelaySec;
     };

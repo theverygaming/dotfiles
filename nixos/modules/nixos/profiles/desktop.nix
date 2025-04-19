@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.profiles.desktop;
-in {
+in
+{
   options.custom.profiles.desktop = {
     enable = lib.mkEnableOption "Enable Desktop profile";
   };

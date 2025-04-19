@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.pkggroups.office;
-in {
+in
+{
   options.custom.pkggroups.office = {
     enable = lib.mkEnableOption "Enable Office packages";
   };

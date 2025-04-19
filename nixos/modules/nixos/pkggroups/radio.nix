@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.pkggroups.radio;
-in {
+in
+{
   options.custom.pkggroups.radio = {
     enable = lib.mkEnableOption "Enable Radio-related packages";
   };

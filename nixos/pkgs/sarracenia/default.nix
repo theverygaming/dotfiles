@@ -25,7 +25,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     runHook preInstall
 
     install -Dm755 target/release/${pname} $out/bin/${pname}
-  
+
     # TODO: actually copy the right files into the right paths
     mkdir -p $out/share/${pname}
     cp -r static $out/${pname}/

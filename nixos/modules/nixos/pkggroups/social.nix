@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.pkggroups.social;
-in {
+in
+{
   options.custom.pkggroups.social = {
     enable = lib.mkEnableOption "Enable Social packages";
   };

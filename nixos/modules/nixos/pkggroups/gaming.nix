@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.pkggroups.gaming;
-in {
+in
+{
   options.custom.pkggroups.gaming = {
     enable = lib.mkEnableOption "Enable Gaming packages";
   };
@@ -13,7 +19,7 @@ in {
     #    remotePlay.openFirewall = true;
     #    dedicatedServer.openFirewall = true;
     #  };
-    environment.systemPackages = with pkgs; [ 
+    environment.systemPackages = with pkgs; [
       prismlauncher # minecraft
     ];
   };

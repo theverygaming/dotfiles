@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.pkggroups.avstuff;
-in {
+in
+{
   options.custom.pkggroups.avstuff = {
     enable = lib.mkEnableOption "Enable A/V recording & editing packages";
   };

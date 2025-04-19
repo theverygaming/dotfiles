@@ -31,13 +31,20 @@
 
   system.stateVersion = "25.05";
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # tmpfs :3
   fileSystems."/tmp" = {
     device = "none";
     fsType = "tmpfs";
-    options = [ "defaults" "size=8G" "mode=755" ];
+    options = [
+      "defaults"
+      "size=8G"
+      "mode=755"
+    ];
   };
 
   virtualisation.vmVariant = {

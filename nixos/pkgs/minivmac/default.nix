@@ -18,7 +18,7 @@ stdenv.mkDerivation (finalAttrs: {
     sha256 = "sha256-Kxztb55/gk66FO4GHIZEqRty/jhSnn43ztF3alMvQLc=";
   };
 
-  buildInputs = [ 
+  buildInputs = [
     xorg.libX11
     alsa-lib
   ];

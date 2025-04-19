@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.profiles.server;
-in {
+in
+{
   options.custom.profiles.server = {
     enable = lib.mkEnableOption "Enable Server profile";
   };

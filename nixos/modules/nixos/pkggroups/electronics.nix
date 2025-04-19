@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.pkggroups.electronics;
-in {
+in
+{
   options.custom.pkggroups.electronics = {
     enable = lib.mkEnableOption "Enable Electronics-related packages";
   };

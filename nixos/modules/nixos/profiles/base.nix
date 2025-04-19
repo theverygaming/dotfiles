@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.profiles.base;
-in {
+in
+{
   options.custom.profiles.base = {
     enable = lib.mkEnableOption "Enable Base profile";
   };

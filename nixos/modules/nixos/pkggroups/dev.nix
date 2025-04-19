@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.pkggroups.dev;
-in {
+in
+{
   options.custom.pkggroups.dev = {
     enable = lib.mkEnableOption "Enable software development packages";
   };
@@ -15,7 +21,8 @@ in {
       python311
       clang-tools # for clangd
       (vscode-with-extensions.override {
-        vscodeExtensions = with vscode-extensions;
+        vscodeExtensions =
+          with vscode-extensions;
           [
             llvm-vs-code-extensions.vscode-clangd
             jnoortheen.nix-ide
@@ -31,7 +38,8 @@ in {
             ritwickdey.liveserver
             vue.volar
             marp-team.marp-vscode # Markdown presentation tool
-          ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          ]
+          ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
             {
               name = "vscode-scl";
               publisher = "Gunders89";

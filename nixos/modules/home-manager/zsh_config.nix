@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.zsh_config;
-in {
+in
+{
   options.custom.zsh_config = {
     enable = lib.mkEnableOption "Enable zsh config";
   };
@@ -16,7 +22,10 @@ in {
       enable = true;
       oh-my-zsh = {
         enable = true;
-        plugins = [ "git" "colored-man-pages" ];
+        plugins = [
+          "git"
+          "colored-man-pages"
+        ];
         theme = "lambda";
       };
     };

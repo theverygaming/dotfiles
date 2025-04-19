@@ -33,9 +33,21 @@
         layer = "top";
         position = "top";
         height = 32;
-        modules-left = [ "sway/workspaces" "sway/mode" "wlr/taskbar" ];
+        modules-left = [
+          "sway/workspaces"
+          "sway/mode"
+          "wlr/taskbar"
+        ];
         modules-center = [ "sway/window" ];
-        modules-right = [ "pulseaudio" "battery" "temperature" "cpu" "memory" "network" "clock" ];
+        modules-right = [
+          "pulseaudio"
+          "battery"
+          "temperature"
+          "cpu"
+          "memory"
+          "network"
+          "clock"
+        ];
 
         "sway/workspaces" = {
           disable-scroll = true;

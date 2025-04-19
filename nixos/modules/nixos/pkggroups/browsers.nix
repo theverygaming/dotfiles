@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.pkggroups.browsers;
-in {
+in
+{
   options.custom.pkggroups.browsers = {
     enable = lib.mkEnableOption "Enable Browser packages";
   };

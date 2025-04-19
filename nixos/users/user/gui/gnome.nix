@@ -1,14 +1,17 @@
 { pkgs, lib, ... }:
 
 {
-  home.packages = with pkgs.gnomeExtensions; [
-    appindicator
-    runcat
-    clipboard-indicator
-  ] ++ (with pkgs; [
-    gnome-boxes # VNC etc. tool
-    xfce.xfce4-terminal
-  ]);
+  home.packages =
+    with pkgs.gnomeExtensions;
+    [
+      appindicator
+      runcat
+      clipboard-indicator
+    ]
+    ++ (with pkgs; [
+      gnome-boxes # VNC etc. tool
+      xfce.xfce4-terminal
+    ]);
 
   dconf.settings = {
     "org/gnome/shell" = {
@@ -74,7 +77,17 @@
 
     # favorites
     "org/gnome/shell" = {
-      favorite-apps = [ "org.gnome.Nautilus.desktop" "firefox.desktop" "google-chrome.desktop" "discord.desktop" "org.telegram.desktop.desktop" "signal-desktop.desktop" "code.desktop" "xfce4-terminal.desktop" "org.pipewire.Helvum.desktop" ];
+      favorite-apps = [
+        "org.gnome.Nautilus.desktop"
+        "firefox.desktop"
+        "google-chrome.desktop"
+        "discord.desktop"
+        "org.telegram.desktop.desktop"
+        "signal-desktop.desktop"
+        "code.desktop"
+        "xfce4-terminal.desktop"
+        "org.pipewire.Helvum.desktop"
+      ];
     };
 
     # touchpad
@@ -91,7 +104,16 @@
     # keyboard layout and stuff
     "org/gnome/desktop/input-sources" =
       let
-        layouts = [ (lib.hm.gvariant.mkTuple [ "xkb" "us" ]) (lib.hm.gvariant.mkTuple [ "xkb" "de" ]) ];
+        layouts = [
+          (lib.hm.gvariant.mkTuple [
+            "xkb"
+            "us"
+          ])
+          (lib.hm.gvariant.mkTuple [
+            "xkb"
+            "de"
+          ])
+        ];
       in
       {
         sources = layouts;
@@ -125,7 +147,9 @@
       binding = "<Super>Return";
     };
     "org/gnome/settings-daemon/plugins/media-keys" = {
-      custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" ];
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+      ];
     };
 
     # desktop background

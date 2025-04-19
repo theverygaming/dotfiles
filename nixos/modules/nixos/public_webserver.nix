@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.custom.public_webserver;
-in {
+in
+{
   options.custom.public_webserver = {
     enable = lib.mkEnableOption "Enable public webserver on /srv/http/public";
   };

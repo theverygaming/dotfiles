@@ -36,7 +36,7 @@
   # Networking
   networking.hostName = "amdE350";
   networking.networkmanager.enable = true;
-  networking.firewall.allowedTCPPorts = [ 
+  networking.firewall.allowedTCPPorts = [
     80 # HTTP
     443 # HTTPS
   ];
