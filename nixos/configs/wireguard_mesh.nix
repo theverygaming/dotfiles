@@ -2,8 +2,9 @@
 
 {
   sops.secrets.wireguard_private = {
-    neededForUsers = true;
     sopsFile = flakeInputs.secrets + "/hosts/${config.networking.hostName}/wireguard.yaml";
+    owner = config.users.users.systemd-network.name;
+    group = config.users.users.systemd-network.group;
   };
 
   custom.wg_mesh = {
@@ -17,6 +18,7 @@
         "172.${builtins.toString (25 + netOffset)}.${builtins.toString peerId}.${
           builtins.toString (if isNetworkAddress then 0 else (offset + 1))
         }${(if withSubnetMask then (if isInterfaceAddr then "/16" else "/24") else "")}";
+      getV6LinkLocal = peerId: "fe80::abcd:${builtins.toString (100 + peerId)}/64";
       hosts = {
         "vps-1" = {
           peerId = 1;
