@@ -13,7 +13,7 @@
   custom.profiles.server.enable = true;
 
   deployment = {
-    targetHost = "amdE350.local.infra.test.furrypri.de";
+    targetHost = "amdE350.local.infra.theverygaming.furrypri.de";
     targetPort = 2222;
     targetUser = "root";
   };

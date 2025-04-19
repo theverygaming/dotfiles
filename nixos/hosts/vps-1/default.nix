@@ -61,9 +61,6 @@
             getZone "theverygaming.furrypri.de"
           );
         };
-        "test.furrypri.de" = {
-          data = flakeInputs.dns.lib.toString "test.furrypri.de" (getZone "test.furrypri.de");
-        };
       };
   };
 

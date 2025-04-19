@@ -8,7 +8,7 @@ let
       SOA = {
         nameServer = "ns1.theverygaming.furrypri.de.";
         adminEmail = "m@screee.ee";
-        serial = 2025042000; # The recommended syntax is YYYYMMDDnn (YYYY=year, MM=month, DD=day, nn=revision number
+        serial = 2025042001; # The recommended syntax is YYYYMMDDnn (YYYY=year, MM=month, DD=day, nn=revision number
         refresh = 60 * 60;
         retry = 60 * 30;
         expire = 60 * 60 * 24;
@@ -47,14 +47,7 @@ in
                 "159.69.26.5"
               ];
             };
-          };
-        }
-        // zone_common
-      );
-      "test.furrypri.de" = (
-        with flakeInputs.dns.lib.combinators;
-        {
-          subdomains = {
+
             "infra" = {
               subdomains = {
                 "local" = {
