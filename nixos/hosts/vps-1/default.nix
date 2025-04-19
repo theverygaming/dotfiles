@@ -13,9 +13,6 @@
   custom.profiles.server.enable = true;
 
   deployment = {
-    # also vps-1.infra.test.furrypri.de but the DNS for
-    # test.furrypri.de runs there and is a bit unreliable
-    # for the time being sooo lets use something else for now
     targetHost = "theverygaming.furrypri.de";
     targetPort = 2222;
     targetUser = "root";
@@ -56,6 +53,14 @@
         getZone = (import ../../dns.nix { inherit flakeInputs; }).getZone;
       in
       {
+        "m.furrypri.de" = {
+          data = flakeInputs.dns.lib.toString "m.furrypri.de" (getZone "m.furrypri.de");
+        };
+        "theverygaming.furrypri.de" = {
+          data = flakeInputs.dns.lib.toString "theverygaming.furrypri.de" (
+            getZone "theverygaming.furrypri.de"
+          );
+        };
         "test.furrypri.de" = {
           data = flakeInputs.dns.lib.toString "test.furrypri.de" (getZone "test.furrypri.de");
         };
