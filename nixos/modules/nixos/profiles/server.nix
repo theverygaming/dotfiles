@@ -15,7 +15,7 @@ in {
         containerization.enable = lib.mkDefault true;
       };
 
-      flake_auto_upgrade.enable = true;
+      flake_auto_upgrade.enable = false; # FIXME: this thing is borked (it should not get the flake from git)
     };
   };
 }
