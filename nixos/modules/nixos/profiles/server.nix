@@ -22,6 +22,8 @@ in
       };
 
       flake_auto_upgrade.enable = false; # FIXME: this thing is borked (it should not get the flake from git)
+
+      monitoring.enable = true;
     };
   };
 }
