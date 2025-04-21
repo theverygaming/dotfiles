@@ -109,6 +109,36 @@ in
         path pointing to the WireGuard private key
       '';
     };
+
+    firewall = mkOption {
+      type = types.submodule {
+        options = {
+          allowedTCPPorts = mkOption {
+            type = types.listOf types.port;
+            default = [ ];
+          };
+
+          allowedTCPPortRanges = mkOption {
+            type = types.listOf (types.attrsOf types.port);
+            default = [ ];
+          };
+
+          allowedUDPPorts = mkOption {
+            type = types.listOf types.port;
+            default = [ ];
+          };
+
+          allowedUDPPortRanges = mkOption {
+            type = types.listOf (types.attrsOf types.port);
+            default = [ ];
+          };
+
+        };
+      };
+      description = ''
+        firewall options that will be applied to each GRE interface
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable (
@@ -343,12 +373,17 @@ in
         '';
       };
 
-      # allow babeld UDP port for the interfaces it uses
+      # firewall for all GRE interfaces
       networking.firewall.interfaces = builtins.listToAttrs (
         lib.attrsets.mapAttrsToList (n: v: {
           name = n;
           value = {
-            allowedUDPPorts = [ 6696 ];
+            allowedTCPPorts = cfg.firewall.allowedTCPPorts;
+            allowedTCPPortRanges = cfg.firewall.allowedTCPPortRanges;
+            allowedUDPPorts = cfg.firewall.allowedUDPPorts ++ [
+              6696 # allow babeld UDP port for the interfaces it uses
+            ];
+            allowedUDPPortRanges = cfg.firewall.allowedUDPPortRanges;
           };
         }) (greInterfaces true)
       );
