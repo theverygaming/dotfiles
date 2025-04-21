@@ -12,10 +12,16 @@
       BIND_NETWORK = "tcp";
       BIND = "127.0.0.1:40000";
       SERVE_ROBOTS_TXT = true;
+      METRICS_BIND_NETWORK = "tcp";
+      METRICS_BIND = "127.0.0.1:9100";
     };
   };
+
   services.caddy = {
     enable = true;
+    globalConfig = ''
+      metrics
+    '';
     virtualHosts =
       let
         website_built = pkgs.stdenv.mkDerivation rec {
@@ -52,7 +58,6 @@
         '';
       in
       {
-        # TODO: export metrics
         "m.furrypri.de".extraConfig = ''
           redir https://theverygaming.furrypri.de
         '';
@@ -104,4 +109,11 @@
         '';
       };
   };
+
+  custom.monitoring.promScrapeTargets = [
+    # Caddy
+    "127.0.0.1:2019"
+    # Anubis
+    "127.0.0.1:9100"
+  ];
 }
