@@ -111,6 +111,7 @@ in
     };
 
     firewall = mkOption {
+      default = { };
       type = types.submodule {
         options = {
           allowedTCPPorts = mkOption {
