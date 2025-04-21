@@ -25,5 +25,14 @@ in
 
       monitoring.enable = true;
     };
+
+    nix.optimise.automatic = true;
+    nix.optimise.dates = [ "03:00" ];
+
+    nix.gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
   };
 }

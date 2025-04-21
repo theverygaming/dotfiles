@@ -23,12 +23,13 @@
   # Configure console keymap
   console.keyMap = "us";
 
-  # I NEED ALL OF THE GIGABYTES
+  # I NEED ALL OF THE GIGABYTES (this optimises the store on each build)
   nix.settings.auto-optimise-store = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # FIXME: this is a.. bad place
   system.stateVersion = "25.05";
 
   nix.settings.experimental-features = [
