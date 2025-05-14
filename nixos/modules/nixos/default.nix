@@ -9,5 +9,6 @@
     ./flake_autoupgrade.nix
     ./wg_mesh.nix
     ./monitoring.nix
+    ./microvm.nix
   ];
 }
