@@ -374,6 +374,11 @@ in
         '';
       };
 
+      systemd.services.babeld = {
+        after = [ "systemd-networkd.service" ];
+        requires = [ "systemd-networkd.service" ];
+      };
+
       # firewall for all GRE interfaces
       networking.firewall.interfaces = builtins.listToAttrs (
         lib.attrsets.mapAttrsToList (n: v: {
