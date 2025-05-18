@@ -8,6 +8,7 @@
     ../../common
     ../../users
     ../../configs/wireguard_mesh.nix
+    ./services
   ];
 
   custom.profiles.server.enable = true;
@@ -41,35 +42,16 @@
     443 # HTTPS
   ];
 
-  # Website
-  services.caddy = {
+  custom.wg_mesh.firewall.allowedTCPPorts = [
+    9091 # FIXME: grafana (debugging)
+  ];
+
+  services.grafana = {
     enable = true;
-    virtualHosts = {
-      "http://".extraConfig = ''
-        header Content-Type text/html
-        respond <<HTML
-            <!DOCTYPE html>
-            <html>
-              <!-- :3 -->
-              <head>
-                <title>:3</title>
-                <meta http-equiv="Refresh" content="5; URL=https://www.youtube-nocookie.com/embed/75KlCpeLo64?si=EgII1K2HQxFhbQUH" />
-                <style>
-                h1 {
-                  margin: 0;
-                  padding: 0;
-                  white-space: nowrap;
-                  font-family: monospace;
-                  font-size: calc(100vw / .625 / 9);
-                }
-                </style>
-              </head>
-              <body>
-                <h1>:3</h1>
-              </body>
-            </html>
-        HTML 200
-      '';
+    #domain = "grafana.pele";
+    settings.server = {
+      http_port = 9091;
+      http_addr = "10.13.12.4";
     };
   };
 }

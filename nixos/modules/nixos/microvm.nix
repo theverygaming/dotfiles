@@ -80,9 +80,9 @@ in
             imports = vm.modules;
 
             microvm = {
-              # pulls in some qemu package that is not in the binary cache and i don't wanna wait for the build
-              optimize.enable = false;
-              hypervisor = "qemu";
+              hypervisor = "crosvm";
+
+              balloon = true;
 
               interfaces = [
                 {
