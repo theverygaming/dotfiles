@@ -2,6 +2,7 @@
   config,
   lib,
   flakeInputs,
+  pkgs,
   ...
 }:
 
@@ -61,6 +62,14 @@ in
                   Extra configuration passed to the microvm
                 '';
               };
+
+              insecureDebug = mkOption {
+                type = types.bool;
+                default = false;
+                description = ''
+                  Enable insecure debugging (ssh with password 12345678)
+                '';
+              };
             };
           }
         )
@@ -74,10 +83,43 @@ in
     microvm.vms = lib.mapAttrs (
       name: vm:
       {
+        pkgs = import flakeInputs.nixpkgs { system = pkgs.stdenv.hostPlatform.system; };
         config =
           { ... }:
           {
-            imports = vm.modules;
+            imports =
+              vm.modules
+              ++ (
+                if vm.insecureDebug then
+                  lib.warn "DANGEROUS: Insecure debugging enabled for microvm ${name}" [
+                    (
+                      { ... }:
+                      {
+                        users.users."user" = {
+                          isNormalUser = true;
+                          description = "user";
+                          extraGroups = [
+                            "wheel"
+                          ];
+                          initialPassword = "12345678";
+                        };
+
+                        services.openssh = {
+                          enable = true;
+                          settings.PermitRootLogin = "yes";
+                          settings.PasswordAuthentication = true;
+                        };
+
+                        networking.firewall.allowedTCPPorts = [
+                          22
+                        ];
+                      }
+                    )
+
+                  ]
+                else
+                  [ ]
+              );
 
             microvm = {
               hypervisor = "crosvm";
@@ -103,31 +145,19 @@ in
               ];
             };
 
-            networking.interfaces.enp0s3.ipv4.addresses = [
+            networking.interfaces.eth0.ipv4.addresses = [
               {
                 address = vm.ip;
                 prefixLength = cfg.prefixLength;
               }
             ];
 
-            users.users."user" = {
-              isNormalUser = true;
-              description = "user";
-              extraGroups = [
-                "wheel"
-              ];
-              initialPassword = "12345678";
-            };
-
-            services.openssh = {
-              enable = true;
-              settings.PermitRootLogin = "yes";
-              settings.PasswordAuthentication = true;
-            };
-
-            networking.firewall.allowedTCPPorts = [
-              22
+            # Guess what, systemd naming is ass here
+            boot.kernelParams = [
+              "net.ifnames=0"
             ];
+
+            users.mutableUsers = false; # DECLARATIVE USERS!! :3
           };
       }
       // vm.extraConfig
@@ -147,7 +177,7 @@ in
 
         addresses = [
           {
-            addressConfig.Address = "${cfg.hostIp}/${builtins.toString cfg.prefixLength}";
+            Address = "${cfg.hostIp}/${builtins.toString cfg.prefixLength}";
           }
         ];
       };
