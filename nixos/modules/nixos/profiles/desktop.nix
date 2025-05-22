@@ -30,5 +30,8 @@ in
         avstuff.enable = lib.mkDefault true;
       };
     };
+    environment.systemPackages = with pkgs; [
+      wireguard-tools # i use wireguard on most systems
+    ];
   };
 }
