@@ -38,17 +38,37 @@
       url = "github:astro/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nur_theverygaming = {
+      url = "github:theverygaming/nix-repo";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     inputs@{ self, ... }:
     {
       colmena =
+        let
+          allHosts =
+            with inputs.nixpkgs.lib;
+            (attrNames (filterAttrs (x: type: type == "directory") (builtins.readDir ./hosts)));
+        in
         {
           meta = {
             nixpkgs = import inputs.nixpkgs {
-              system = "x86_64-linux";
+              # set to something weird that doesn't apply to the majority
+              # of machines just to ensure that nodeNixpkgs is working correctly
+              system = "armv7l-linux";
             };
+            nodeNixpkgs = (
+              with inputs.nixpkgs.lib;
+              listToAttrs (
+                map (
+                  name: nameValuePair name (import (./. + "/hosts/${name}/nixpkgs.nix") { flakeInputs = inputs; })
+                ) allHosts
+              )
+            );
             specialArgs = {
               flakeInputs = inputs;
             };
@@ -57,6 +77,21 @@
             { name, ... }:
             {
               imports = [
+                (
+                  {
+                    flakeInputs,
+                    config,
+                    ...
+                  }:
+
+                  {
+                    nixpkgs.overlays = [
+                      (final: prev: {
+                        nur_theverygaming = flakeInputs.nur_theverygaming.packages."${config.nixpkgs.system}";
+                      })
+                    ];
+                  }
+                )
                 ./modules/common
                 ./modules/nixos
                 ./pkgs/override.nix
@@ -68,14 +103,7 @@
               ];
             };
         }
-        // (
-          with inputs.nixpkgs.lib;
-          listToAttrs (
-            map (x: nameValuePair x { }) (
-              attrNames (filterAttrs (x: type: type == "directory") (builtins.readDir ./hosts))
-            )
-          )
-        );
+        // (with inputs.nixpkgs.lib; listToAttrs (map (x: nameValuePair x { }) allHosts));
       colmenaHive = inputs.colmena.lib.makeHive self.outputs.colmena;
       # nix run github:zhaofengli/colmena -- apply --on ... --verbose --show-trace
 

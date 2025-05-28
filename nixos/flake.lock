@@ -224,6 +224,26 @@
         "type": "github"
       }
     },
+    "nur_theverygaming": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1748425813,
+        "narHash": "sha256-OIYg0Cyheu80/cx4sZJn/2z4TapaTc7znp0HGWDIY6k=",
+        "owner": "theverygaming",
+        "repo": "nix-repo",
+        "rev": "07dab1eb705ad89a57bf53f020a3a51b14a8e688",
+        "type": "github"
+      },
+      "original": {
+        "owner": "theverygaming",
+        "repo": "nix-repo",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "colmena": "colmena",
@@ -233,6 +253,7 @@
         "microvm": "microvm",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
+        "nur_theverygaming": "nur_theverygaming",
         "secrets": "secrets",
         "sops-nix": "sops-nix"
       }

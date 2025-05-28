@@ -20,10 +20,10 @@ in
 
       satdump
 
-      custom.vlfrx-tools
+      nur_theverygaming.vlfrx-tools
       gnuplot # for plotting output from vlfrx-tools
-      custom.ebnaut
-      custom.ebsynth
+      nur_theverygaming.ebnaut
+      nur_theverygaming.ebsynth
     ];
 
     hardware.rtl-sdr.enable = lib.mkDefault true;
