@@ -54,4 +54,9 @@
       http_addr = "10.13.12.4";
     };
   };
+
+  custom.monitoring.promScrapeTargets = [
+    # smart meter experiment
+    "192.168.178.38:80"
+  ];
 }
