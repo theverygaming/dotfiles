@@ -6,6 +6,8 @@
   ...
 }:
 
+# FIXME: microvm dir is fckin world-readable sobbbb
+
 let
   cfg = config.custom.microvm;
 in
@@ -68,6 +70,15 @@ in
                 default = false;
                 description = ''
                   Enable insecure debugging (ssh with password 12345678)
+                '';
+              };
+
+              host_share = mkOption {
+                type = types.bool;
+                default = false;
+                description = ''
+                  If a host share (VM:/host_share -> HOST:/var/lib/microvms/<vm name>/host_share)
+                  should be created for this VM or not
                 '';
               };
             };
@@ -135,14 +146,28 @@ in
                 }
               ];
 
-              shares = [
-                {
-                  source = "/nix/store";
-                  mountPoint = "/nix/.ro-store";
-                  tag = "ro-store";
-                  proto = "virtiofs";
-                }
-              ];
+              shares =
+                [
+                  {
+                    source = "/nix/store";
+                    mountPoint = "/nix/.ro-store";
+                    tag = "ro-store";
+                    proto = "virtiofs";
+                  }
+                ]
+                ++ (
+                  if vm.host_share then
+                    [
+                      {
+                        proto = "virtiofs";
+                        tag = "host_share";
+                        source = "/var/lib/microvms/${name}/host_share";
+                        mountPoint = "/host_share";
+                      }
+                    ]
+                  else
+                    [ ]
+                );
             };
 
             networking.interfaces.eth0.ipv4.addresses = [
@@ -162,6 +187,31 @@ in
       }
       // vm.extraConfig
     ) cfg.vms;
+
+    systemd.services = builtins.foldl' (
+      result: name:
+      result
+      // (
+        if cfg.vms.${name}.host_share then
+          {
+            "install-microvm-${name}-host-share" = {
+              description = "Create host share";
+              wantedBy = [ "install-microvm-${name}.service" ];
+              before = [ "install-microvm-${name}.service" ];
+              script = ''
+                mkdir -p "/var/lib/microvms/${name}/host_share"
+                chown -hR microvm:kvm "/var/lib/microvms/${name}/host_share"
+              '';
+              serviceConfig = {
+                Type = "oneshot";
+                RemainAfterExit = true;
+              };
+            };
+          }
+        else
+          { }
+      )
+    ) { } (builtins.attrNames cfg.vms);
 
     # systemd-networkd automatically enables systemd-resolved which we DO NOT want especially on servers that run nameservers..
     services.resolved.enable = false;
