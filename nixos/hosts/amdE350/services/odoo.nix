@@ -9,10 +9,11 @@
   custom.microvm = {
     enable = true;
     vms = {
-      "odoo" = {
+      "odoo-private" = {
         id = "1";
         ip = "10.69.0.2";
         insecureDebug = true;
+        host_share = true;
         modules = [
           (
             { pkgs, ... }:
@@ -32,6 +33,10 @@
                     autoCreate = true;
                   }
                 ];
+              };
+              fileSystems."/root" = {
+                device = "/persistent/root";
+                options = [ "bind" ];
               };
               systemd.services.create_pg_data_dir = {
                 description = "Create PostgreSQL data directory";
@@ -77,6 +82,8 @@
                   # we do not use the database manager, the admin password is set - just in case it happens to enable itself _somehow_
                   # In that case, this is a random generated hash that should be rather hard to crack, hopefully :sob:
                   # (and i have not written down the actual password behind this hash anywhere)
+                  # (this is needed in case the database manager activates, because otherwise it would
+                  #  let the user set a password! And then anyone with access could download a full DB dump..)
                   admin_passwd = "$pbkdf2-sha512$600000$rTVGyLn3vheilJJyLsXY.w$zdPq7GQVXqRiG0cg1k.qJut1Pzj3djwWcUoZpHkzW3dg1XChca.uR7YdjOAZsGGYkw6fNvXOAyT6Dr9.Q0NoQw";
                   # this is stupid and i don't like it.
                   # Unfortunately the Odoo module does not use mkDefault :(
@@ -97,6 +104,31 @@
                 8069
                 8072
               ];
+              systemd.services.odoo-backup = {
+                description = "Run full Odoo Backup";
+                after = [ "postgresql.service" ];
+                requires = [ "postgresql.service" ];
+                script = ''
+                  mkdir -p /host_share/odoo-backup
+                  ${pkgs.rsync}/bin/rsync -avz --no-owner --no-group --delete /persistent/odoo_data/ /host_share/odoo-backup/data
+                  ${pkgs.su}/bin/su postgres -c '${pkgs.postgresql}/bin/pg_dump --no-owner -d odoo' > /host_share/odoo-backup/db.sql
+                '';
+                serviceConfig = {
+                  Type = "oneshot";
+                };
+              };
+              systemd.timers.odoo-backup = {
+                wantedBy = [ "timers.target" ];
+                timerConfig = {
+                  OnCalendar = [
+                    "23:00"
+                    "05:00"
+                    "11:00"
+                    "17:00"
+                  ];
+                  Persistent = true;
+                };
+              };
             }
           )
         ];
