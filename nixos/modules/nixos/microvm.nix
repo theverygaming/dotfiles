@@ -6,8 +6,6 @@
   ...
 }:
 
-# FIXME: microvm dir is fckin world-readable sobbbb
-
 let
   cfg = config.custom.microvm;
 in
@@ -192,24 +190,41 @@ in
       result: name:
       result
       // (
-        if cfg.vms.${name}.host_share then
-          {
-            "install-microvm-${name}-host-share" = {
-              description = "Create host share";
-              wantedBy = [ "install-microvm-${name}.service" ];
-              before = [ "install-microvm-${name}.service" ];
-              script = ''
-                mkdir -p "/var/lib/microvms/${name}/host_share"
-                chown -hR microvm:kvm "/var/lib/microvms/${name}/host_share"
-              '';
-              serviceConfig = {
-                Type = "oneshot";
-                RemainAfterExit = true;
-              };
+        {
+          "microvm-${name}-fix-perms" = {
+            description = "Ensure permissions are restrictive";
+            wantedBy = [ "microvm@${name}.service" ];
+            before = [ "microvm@${name}.service" ];
+            script = ''
+              chown microvm:kvm "/var/lib/microvms/${name}"
+              chmod 700 "/var/lib/microvms/${name}"
+            '';
+            serviceConfig = {
+              Type = "oneshot";
+              RemainAfterExit = true;
             };
-          }
-        else
-          { }
+          };
+        }
+        // (
+          if cfg.vms.${name}.host_share then
+            {
+              "install-microvm-${name}-host-share" = {
+                description = "Create host share";
+                wantedBy = [ "install-microvm-${name}.service" ];
+                before = [ "install-microvm-${name}.service" ];
+                script = ''
+                  mkdir -p "/var/lib/microvms/${name}/host_share"
+                  chown -hR microvm:kvm "/var/lib/microvms/${name}/host_share"
+                '';
+                serviceConfig = {
+                  Type = "oneshot";
+                  RemainAfterExit = true;
+                };
+              };
+            }
+          else
+            { }
+        )
       )
     ) { } (builtins.attrNames cfg.vms);
 
