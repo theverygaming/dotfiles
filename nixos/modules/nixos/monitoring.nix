@@ -77,6 +77,7 @@ in
               "prometheusremotewrite"
             ];
           };
+          # telemetry.logs.level = "debug";
         };
       };
     };

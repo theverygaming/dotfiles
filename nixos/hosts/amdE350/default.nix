@@ -56,7 +56,7 @@
   };
 
   custom.monitoring.promScrapeTargets = [
-    # smart meter experiment
-    "192.168.178.38:80"
+    # smart meter
+    "192.168.178.40:80"
   ];
 }
