@@ -55,7 +55,7 @@
     };
   };
 
-  custom.monitoring.promScrapeTargets = [
+  custom.monitoring.promScrapeTargets5s = [
     # smart meter
     "192.168.178.40:80"
   ];

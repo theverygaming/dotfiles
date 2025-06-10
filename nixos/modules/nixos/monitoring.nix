@@ -18,6 +18,14 @@ in
         additional prometheus scrape targets
       '';
     };
+    # TODO: do this properly lol
+    promScrapeTargets5s = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = ''
+        additional prometheus scrape targets (5s scrape interval)
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -35,6 +43,7 @@ in
       };
     };
 
+    # FIXME: there should be a better way for identifying metrics per-host than the job
     services.opentelemetry-collector = {
       enable = true;
       package = pkgs.opentelemetry-collector-contrib;
@@ -51,6 +60,15 @@ in
                   # smartctl
                   "${config.services.prometheus.exporters.smartctl.listenAddress}:${builtins.toString config.services.prometheus.exporters.smartctl.port}"
                 ] ++ cfg.promScrapeTargets;
+              }
+            ];
+          }
+          {
+            job_name = config.networking.hostName + "_5s";
+            scrape_interval = "5s";
+            static_configs = [
+              {
+                targets = cfg.promScrapeTargets5s;
               }
             ];
           }
