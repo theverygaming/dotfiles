@@ -8,7 +8,7 @@ let
       SOA = {
         nameServer = "ns1.theverygaming.furrypri.de.";
         adminEmail = "m@screee.ee";
-        serial = 2025051301; # The recommended syntax is YYYYMMDDnn (YYYY=year, MM=month, DD=day, nn=revision number
+        serial = 2025061501; # The recommended syntax is YYYYMMDDnn (YYYY=year, MM=month, DD=day, nn=revision number
         refresh = 60 * 60;
         retry = 60 * 30;
         expire = 60 * 60 * 24;
@@ -62,8 +62,18 @@ in
               };
             };
 
+            # FIXME: this is ass, refine DNS
             "infra" = {
               subdomains = {
+                "lan" = {
+                  subdomains = {
+                    "amdE350" = {
+                      A = [
+                        "192.168.178.39"
+                      ];
+                    };
+                  };
+                };
                 "local" = {
                   subdomains = {
                     "vps-1" = {
