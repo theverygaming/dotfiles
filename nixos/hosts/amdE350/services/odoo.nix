@@ -93,6 +93,32 @@
                 };
                 autoInit = true;
                 autoInitExtraFlags = [ "--without-demo=all" ];
+                addons = [
+                  (pkgs.fetchFromGitHub {
+                    owner = "OCA";
+                    repo = "bank-statement-import";
+                    rev = "badd66db9b4061818ef47cd4c0c76cb0321a85bc";
+                    sha256 = "sha256-DvLXgF65oB49jPjH0Qhy+nEjbNhoKJC+S0cYJSSBiqc=";
+                  })
+                  (pkgs.fetchFromGitHub {
+                    owner = "OCA";
+                    repo = "account-reconcile";
+                    rev = "071e078a4cf50ae2451f91c23326b57c03716bd7";
+                    sha256 = "sha256-nxy8tetb3yYxiI9px44+OgL4+i7kTODyj/zACtKsTjI=";
+                  })
+                  (pkgs.fetchFromGitHub {
+                    owner = "OCA";
+                    repo = "web";
+                    rev = "1f8eb84f4dd571fff5e5805e7a5bdb5e3df1cd13";
+                    sha256 = "sha256-5JIIhYJ/NJtClvNyFuBEapN6EWLn9AV710Qdi+WoQj0=";
+                  })
+                  (pkgs.fetchFromGitHub {
+                    owner = "OCA";
+                    repo = "project";
+                    rev = "3f4b1865a7a156110eaf9433d896df4279f05e92";
+                    sha256 = "sha256-iWLB/IVXqu9k9QchsnTV/oknzx+LcsDR3YX8QAohgRs=";
+                  })
+                ];
               };
               systemd.services.odoo = {
                 serviceConfig.TimeoutStartSec = "20min"; # Odoo can take a while to initialize, esp under high system load
