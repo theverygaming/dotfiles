@@ -72,6 +72,81 @@
                     # TODO: file an issue with the worker thing in NixOS
                     ./odoo.patch
                   ];
+                  /*
+                    # TODO: report this skill issue:
+                    RPC_ERROR
+
+                    Odoo Server Error
+
+                    Occured on <URL> on model account.journal and id 10 on 2025-06-16 18:29:29 GMT
+
+                    Traceback (most recent call last):
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/http.py", line 1963, in _transactioning
+                        return service_model.retrying(func, env=self.env)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/service/model.py", line 156, in retrying
+                        result = func()
+                                ^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/http.py", line 1930, in _serve_ir_http
+                        response = self.dispatcher.dispatch(rule.endpoint, args)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/http.py", line 2178, in dispatch
+                        result = self.request.registry['ir.http']._dispatch(endpoint)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/addons/base/models/ir_http.py", line 333, in _dispatch
+                        result = endpoint(**request.params)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/http.py", line 727, in route_wrapper
+                        result = endpoint(self, *args, **params_ok)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/addons/web/controllers/dataset.py", line 36, in call_kw
+                        return call_kw(request.env[model], method, args, kwargs)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/api.py", line 533, in call_kw
+                        result = getattr(recs, name)(*args, **kwargs)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/addons/account/models/account_journal.py", line 966, in create_document_from_attachment
+                        invoices = self._create_document_from_attachment(attachment_ids)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/addons/account/models/account_journal.py", line 948, in _create_document_from_attachment
+                        invoice.with_context(skip_is_manually_modified=True)._extend_with_attachments(attachment, new=True)
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/addons/account/models/account_move.py", line 4135, in _extend_with_attachments
+                        file_data_list = attachments._unwrap_edi_attachments()
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/addons/account/models/ir_attachment.py", line 160, in _unwrap_edi_attachments
+                        to_process += supported_format['decoder'](attachment.name, attachment.raw)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/addons/account/models/ir_attachment.py", line 67, in _decode_edi_pdf
+                        for xml_name, xml_content in pdf_reader.getAttachments():
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      File "/nix/store/khhxl07bvn0mjgfx5gjw90ayigpwqvan-odoo-18.0.20250506/lib/python3.12/site-packages/odoo/tools/pdf/__init__.py", line 332, in getAttachments
+                        if self.isEncrypted:
+                          ^^^^^^^^^^^^^^^^
+                      File "/nix/store/3igil0h6bhkgpl3c5552cmii3k05mq6w-python3.12-pypdf2-3.0.1/lib/python3.12/site-packages/PyPDF2/_reader.py", line 1944, in isEncrypted
+                        deprecation_with_replacement("isEncrypted", "is_encrypted", "3.0.0")
+                      File "/nix/store/3igil0h6bhkgpl3c5552cmii3k05mq6w-python3.12-pypdf2-3.0.1/lib/python3.12/site-packages/PyPDF2/_utils.py", line 369, in deprecation_with_replacement
+                        deprecation(DEPR_MSG_HAPPENED.format(old_name, removed_in, new_name))
+                      File "/nix/store/3igil0h6bhkgpl3c5552cmii3k05mq6w-python3.12-pypdf2-3.0.1/lib/python3.12/site-packages/PyPDF2/_utils.py", line 351, in deprecation
+                        raise DeprecationError(msg)
+                    PyPDF2.errors.DeprecationError: isEncrypted is deprecated and was removed in PyPDF2 3.0.0. Use is_encrypted instead.
+
+                    The above server error caused the following client error:
+                    RPC_ERROR: Odoo Server Error
+                        RPC_ERROR
+                            at makeErrorFromResponse (https://<URL>/web/assets/17f349f/web.assets_web.min.js:3144:163)
+                            at XMLHttpRequest.<anonymous> (https://<URL>/web/assets/17f349f/web.assets_web.min.js:3149:13)
+                  */
+                  propagatedBuildInputs =
+                    builtins.filter (p: (p.pname or "") != "pypdf2") old.propagatedBuildInputs
+                    ++ [
+                      (pkgs.python312Packages.pypdf2.overrideAttrs (old: {
+                        src = pkgs.fetchPypi {
+                          pname = "PyPDF2";
+                          version = "2.12.1";
+                          hash = "sha256-4D7xirzHXadBoKzBp3SSU0loh744zZiHvM4c7jk9pF4=";
+                        };
+                      }))
+                    ];
                 });
                 settings.options = {
                   workers = 2;
