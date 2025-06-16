@@ -193,6 +193,30 @@
                     rev = "3f4b1865a7a156110eaf9433d896df4279f05e92";
                     sha256 = "sha256-iWLB/IVXqu9k9QchsnTV/oknzx+LcsDR3YX8QAohgRs=";
                   })
+                  (pkgs.fetchFromGitHub {
+                    owner = "OCA";
+                    repo = "account-financial-tools";
+                    rev = "09ec71abd1a1b0c36a623df3fb25e54a23498e85";
+                    sha256 = "sha256-YFelhfuptI/iVPbzbSY/woyTjL/rPQaE0TENwzHh0W0=";
+                  })
+                  (pkgs.fetchFromGitHub {
+                    owner = "OCA";
+                    repo = "account-financial-reporting";
+                    rev = "2b279ca0a12cd1c886efbcf3e3b968c58787d08e";
+                    sha256 = "sha256-9oyRgSp0zqs0CmW1JhOhrPB4o6+5VwUFoygFAQCEwrU=";
+                  })
+                  (pkgs.fetchFromGitHub {
+                    owner = "OCA";
+                    repo = "reporting-engine";
+                    rev = "63c9bde02dfbff038d77d6dbf3e42093a9b774b6";
+                    sha256 = "sha256-DjorMensR0IRXQfAKLvGHF/eN0RLSquzauemXTfoSzQ=";
+                  })
+                  (pkgs.fetchFromGitHub {
+                    owner = "OCA";
+                    repo = "server-ux";
+                    rev = "65598dfc49908705825eb2b7cbd8708f0a97e5c4";
+                    sha256 = "sha256-hyk7fPZ3+xx1eEKuPTH21VQFvSAQ8AhMb9zA5Il7FxE=";
+                  })
                 ];
               };
               systemd.services.odoo = {
