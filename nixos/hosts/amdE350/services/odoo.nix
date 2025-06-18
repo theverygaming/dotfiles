@@ -69,6 +69,7 @@
                 enable = true;
                 package = pkgs.odoo.overrideAttrs (old: rec {
                   patches = [
+                    ./allow-disable-audit-trail.patch
                     # TODO: file an issue with the worker thing in NixOS
                     ./odoo.patch
                   ];

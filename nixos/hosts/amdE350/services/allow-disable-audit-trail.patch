@@ -1,0 +1,16 @@
+diff --git a/odoo/addons/account/models/company.py b/odoo/addons/account/models/company.py
+index 75d7d7dc..cf6f2281 100644
+--- a/odoo/addons/account/models/company.py
++++ b/odoo/addons/account/models/company.py
+@@ -316,10 +316,7 @@ class ResCompany(models.Model):
+ 
+     @api.constrains('check_account_audit_trail')
+     def _check_audit_trail_records(self):
+-        if not self.check_account_audit_trail:
+-            move_count = self.env['account.move'].search_count([('company_id', '=', self.id)], limit=1)
+-            if move_count:
+-                raise UserError(_("Can't disable audit trail when there are existing records."))
++        pass # oops
+ 
+     @api.depends('fiscal_position_ids.foreign_vat')
+     def _compute_multi_vat_foreign_country(self):
