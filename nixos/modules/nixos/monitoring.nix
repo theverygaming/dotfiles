@@ -59,7 +59,8 @@ in
                   "${config.services.prometheus.exporters.node.listenAddress}:${builtins.toString config.services.prometheus.exporters.node.port}"
                   # smartctl
                   "${config.services.prometheus.exporters.smartctl.listenAddress}:${builtins.toString config.services.prometheus.exporters.smartctl.port}"
-                ] ++ cfg.promScrapeTargets;
+                ]
+                ++ cfg.promScrapeTargets;
               }
             ];
           }

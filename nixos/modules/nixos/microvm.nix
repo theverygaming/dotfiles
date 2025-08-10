@@ -144,28 +144,27 @@ in
                 }
               ];
 
-              shares =
-                [
-                  {
-                    source = "/nix/store";
-                    mountPoint = "/nix/.ro-store";
-                    tag = "ro-store";
-                    proto = "virtiofs";
-                  }
-                ]
-                ++ (
-                  if vm.host_share then
-                    [
-                      {
-                        proto = "virtiofs";
-                        tag = "host_share";
-                        source = "/var/lib/microvms/${name}/host_share";
-                        mountPoint = "/host_share";
-                      }
-                    ]
-                  else
-                    [ ]
-                );
+              shares = [
+                {
+                  source = "/nix/store";
+                  mountPoint = "/nix/.ro-store";
+                  tag = "ro-store";
+                  proto = "virtiofs";
+                }
+              ]
+              ++ (
+                if vm.host_share then
+                  [
+                    {
+                      proto = "virtiofs";
+                      tag = "host_share";
+                      source = "/var/lib/microvms/${name}/host_share";
+                      mountPoint = "/host_share";
+                    }
+                  ]
+                else
+                  [ ]
+              );
             };
 
             networking.interfaces.eth0.ipv4.addresses = [
