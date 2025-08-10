@@ -1,19 +1,67 @@
 { flakeInputs, pkgs, ... }:
 
 {
+  imports = [
+    flakeInputs.nixocaine.nixosModules.default
+  ];
+
   networking.firewall.allowedTCPPorts = [
     80 # HTTP
     443 # HTTPS
   ];
 
-  services.anubis.instances."website" = {
-    settings = {
-      TARGET = "http://127.0.0.1:40001";
-      BIND_NETWORK = "tcp";
-      BIND = "127.0.0.1:40000";
-      SERVE_ROBOTS_TXT = true;
-      METRICS_BIND_NETWORK = "tcp";
-      METRICS_BIND = "127.0.0.1:9100";
+  services.iocaine.servers."website" = {
+    enable = true;
+    config = {
+      server.bind = "127.0.0.1:40000";
+      server.request-handler = {
+        language = "roto";
+        path = pkgs.writeTextFile {
+          name = "pkg.roto";
+          text = ''
+            function init() -> Verdict [Unit, String] {
+              let robot_list = Json
+                .load_file("${flakeInputs.ai-robots-txt + "/robots.json"}")
+                .get_keys();
+              iocaine_patterns.insert_patterns("ai.robots.txt", robot_list);
+
+              accept
+            }
+
+            function decide(request: Request) -> Verdict[Outcome, Outcome] {
+              let robot_patterns = iocaine_patterns.get("ai.robots.txt");
+              if robot_patterns.is_match(request.header("user-agent")) {
+                metrics.inc("rule::ai.robots.txt");
+                accept Outcome.garbage()
+              }
+              metrics.inc("rule::default");
+              reject Outcome.not_for_us();
+            }
+          '';
+          destination = "/pkg.roto";
+        };
+      };
+      # https://github.com/ai-robots-txt/ai.robots.txt/raw/refs/heads/main/robots.json
+      sources = {
+        words = pkgs.fetchurl {
+          url = "https://cgit.git.savannah.gnu.org/cgit/miscfiles.git/plain/web2";
+          hash = "sha256-KSmJWrP+x4xpY+vly7NJP+T8nhHroJWlInh7ivxTqGM=";
+        };
+        markov = [
+          (pkgs.fetchurl {
+            url = "https://archive.org/download/GeorgeOrwells1984/1984_djvu.txt";
+            hash = "sha256-9R1PTa8yDtkfH+4rU5BF62ee73irhd3VYX1QB5KU+ZU=";
+          })
+          (pkgs.fetchurl {
+            url = "https://archive.org/download/ost-english-brave_new_world_aldous_huxley/Brave_New_World_Aldous_Huxley_djvu.txt";
+            hash = "sha256-6WkaO/3zQIezGzJDp4QjglikiTZTxgo0P4MEff2mdcY=";
+          })
+        ];
+      };
+      metrics = {
+        enable = true;
+        bind = "127.0.0.1:9100";
+      };
     };
   };
 
@@ -58,10 +106,27 @@
         '';
       in
       {
+        "(iocaine)".extraConfig = ''
+          @read method GET HEAD
+          @not-read not {
+            method GET HEAD
+          }
+          reverse_proxy @read http://127.0.0.1:40000 {
+            @fallback status 421
+            handle_response @fallback {
+              {blocks.handler}
+            }
+          }
+          handle @not-read {
+            {blocks.default}
+          }
+        '';
         "m.furrypri.de".extraConfig = ''
           redir https://theverygaming.furrypri.de
         '';
 
+        # did it like this because I couldn't get the damn
+        # handle_errors directive to work in the `import iocane` block
         "http://theverygaming.furrypri.de:40001".extraConfig = ''
           bind 127.0.0.1
           root * ${website_built}
@@ -78,8 +143,14 @@
         '';
 
         "theverygaming.furrypri.de".extraConfig = ''
-          encode gzip
-          reverse_proxy http://127.0.0.1:40000
+          import iocaine {
+            handler {
+              reverse_proxy http://127.0.0.1:40001
+            }
+            default {
+              respond 405
+            }
+          }
         '';
 
         "http://".extraConfig = ''
@@ -113,7 +184,7 @@
   custom.monitoring.promScrapeTargets = [
     # Caddy
     "127.0.0.1:2019"
-    # Anubis
+    # iocaine
     "127.0.0.1:9100"
   ];
 }
