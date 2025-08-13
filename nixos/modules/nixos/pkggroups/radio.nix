@@ -18,7 +18,15 @@ in
       sdrpp
       zenity # required by SDR++ for file dialogs
 
-      satdump
+      (pkgs.satdump.overrideAttrs (old: {
+        src = fetchFromGitHub {
+          owner = "SatDump";
+          repo = "SatDump";
+          rev = "943de7df03405a53753febf602361e73868dc13e";
+          hash = "sha256-17ZtwTK3VOPRc+sy8A+ZmY88j862FvuKARwIifHaLgQ=";
+        };
+        postPatch = "";
+      }))
 
       nur_theverygaming.vlfrx-tools
       gnuplot # for plotting output from vlfrx-tools
