@@ -22,16 +22,10 @@ in
         src = fetchFromGitHub {
           owner = "SatDump";
           repo = "SatDump";
-          rev = "4332cc72cc4d6e47efa34acc8c8bccb900add4e9";
-          hash = "sha256-0cRKd3YOBQw6ZWzxE1bBwDfDm7w2hfuxhIg8M6e4gI0=";
+          rev = "943de7df03405a53753febf602361e73868dc13e";
+          hash = "sha256-17ZtwTK3VOPRc+sy8A+ZmY88j862FvuKARwIifHaLgQ=";
         };
-        # master doesn't need the patch anymore
         postPatch = "";
-
-        # verywip dependency
-        buildInputs = old.buildInputs ++ [
-          pkgs.dbus
-        ];
       }))
 
       nur_theverygaming.vlfrx-tools
