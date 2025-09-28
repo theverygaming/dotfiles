@@ -16,7 +16,7 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       obs-studio
-      libsForQt5.kdenlive
+      kdePackages.kdenlive
       audacity
     ];
   };

@@ -72,7 +72,6 @@ in
             }
           ];
       })
-      clang-tools_16
       verible # verilog formatting
       nixpkgs-fmt # nix formatting
       cartero # cool GTK API testing tool

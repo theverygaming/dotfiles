@@ -17,7 +17,7 @@ in
     environment.systemPackages = with pkgs; [
       spotify # TODO: maybe look into spotifyd?
       vlc
-      jellyfin-media-player
+      # jellyfin-media-player # depends on qtwebengine-5.15.19 which is marked insecure... -> removed for now
     ];
     networking.firewall.allowedTCPPorts = [
       57621 # Spotify: Allow syncing play state to mobile devices in the same network
