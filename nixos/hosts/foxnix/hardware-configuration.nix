@@ -43,6 +43,10 @@
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp37s0.useDHCP = lib.mkDefault true;
 
+  # Let me wake up my puter from afar with some magic!
+  networking.interfaces.enp37s0.wakeOnLan.enable = true;
+  networking.interfaces.enp37s0.wakeOnLan.policy = [ "magic" ];
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
