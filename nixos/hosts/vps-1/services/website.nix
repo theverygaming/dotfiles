@@ -1,4 +1,9 @@
-{ flakeInputs, pkgs, ... }:
+{
+  flakeInputs,
+  pkgs,
+  config,
+  ...
+}:
 
 {
   imports = [
@@ -73,30 +78,8 @@
     '';
     virtualHosts =
       let
-        website_built = pkgs.stdenv.mkDerivation rec {
-          pname = "website-built";
-          version = "0e22012ff1755a2f35797ef9e8f94b7f1073b0f7";
-
-          src = pkgs.fetchFromGitHub {
-            owner = "theverygaming";
-            repo = "website";
-            rev = version;
-            sha256 = "sha256-JwBuvMn1plVq83IyD5BCbVkG1n0Aph/d2e9UUclTPIM=";
-          };
-
-          nativeBuildInputs = [
-            pkgs.jekyll
-            pkgs.rubyPackages.jekyll-feed
-          ];
-
-          buildPhase = ''
-            jekyll build
-          '';
-
-          installPhase = ''
-            cp -r _site $out
-          '';
-        };
+        website_built =
+          flakeInputs.website_theverygaming.packages."${config.nixpkgs.system}".theverygaming-website;
         # the nix store forces dates to be on the epoch which terribly breaks Caddys Last-Modified header.
         # So we use ETag based on the store path instead
         caddy_etag_hack = ''

@@ -53,6 +53,10 @@
       url = "github:ai-robots-txt/ai.robots.txt";
       flake = false;
     };
+
+    website_theverygaming = {
+      url = "github:theverygaming/website";
+    };
   };
 
   outputs =
