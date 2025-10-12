@@ -19,6 +19,7 @@
   custom.profiles.desktop.enable = true;
 
   custom.desktops.gnome.enable = true;
+  custom.wm.sway.enable = true;
 
   custom.public_webserver.enable = true;
 
