@@ -13,22 +13,24 @@
   };
 
   # Tell Xorg to use the nvidia driver (also valid for Wayland)
-  services.xserver.videoDrivers = [ "nvidia" ];
+  /*
+    services.xserver.videoDrivers = [ "nvidia" ];
 
-  hardware.nvidia = {
+    hardware.nvidia = {
 
-    # Modesetting is needed for most Wayland compositors
-    modesetting.enable = true;
+      # Modesetting is needed for most Wayland compositors
+      modesetting.enable = true;
 
-    # Can apparently break sleep a bit, so lets not for now
-    powerManagement.enable = false;
+      # Can apparently break sleep a bit, so lets not for now
+      powerManagement.enable = false;
 
-    # can't use the open kernel module because it doesn't support my 1070 sob
-    open = false;
+      # can't use the open kernel module because it doesn't support my 1070 sob
+      open = false;
 
-    # Enable the nvidia settings menu (nvidia-settings)
-    nvidiaSettings = true;
+      # Enable the nvidia settings menu (nvidia-settings)
+      nvidiaSettings = true;
 
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
+  */
 }
