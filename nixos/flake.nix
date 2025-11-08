@@ -44,16 +44,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixocaine = {
-      url = "https://git.madhouse-project.org/iocaine/nixocaine/archive/stable.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    ai-robots-txt = {
-      url = "github:ai-robots-txt/ai.robots.txt";
-      flake = false;
-    };
-
     website_theverygaming = {
       url = "github:theverygaming/website";
     };
