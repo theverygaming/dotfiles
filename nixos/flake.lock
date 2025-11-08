@@ -431,12 +431,12 @@
         "rev": "ecd2c25fbafee04fd2ce8d8daa3ad9cd6858c885",
         "revCount": 14,
         "type": "git",
-        "url": "ssh://git@github.com:/theverygaming/nixos-secrets.git"
+        "url": "ssh://git@github.com/theverygaming/nixos-secrets.git"
       },
       "original": {
         "ref": "main",
         "type": "git",
-        "url": "ssh://git@github.com:/theverygaming/nixos-secrets.git"
+        "url": "ssh://git@github.com/theverygaming/nixos-secrets.git"
       }
     },
     "sops-nix": {
@@ -576,11 +576,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1759661352,
-        "narHash": "sha256-q9YsXuFhZiuo32+7Oo1Fq36MEBLLX1Pqin8wFfan6qE=",
+        "lastModified": 1762637029,
+        "narHash": "sha256-njOGLKVtsToxqiXH3nUwqYElWuV2EtJo5bzpvq1tYK4=",
         "owner": "theverygaming",
         "repo": "website",
-        "rev": "96263051949c9361aebeb11335fb9fd271d29109",
+        "rev": "4eb63c536757b9a399f97f0ea779ad1e5313d6a3",
         "type": "github"
       },
       "original": {

@@ -15,7 +15,7 @@ in
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      spotify # TODO: maybe look into spotifyd?
+      spotify # no spotifyd because apparently that requires premium
       vlc
       # jellyfin-media-player # depends on qtwebengine-5.15.19 which is marked insecure... -> removed for now
     ];
