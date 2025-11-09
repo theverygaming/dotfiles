@@ -398,11 +398,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1762637029,
-        "narHash": "sha256-njOGLKVtsToxqiXH3nUwqYElWuV2EtJo5bzpvq1tYK4=",
+        "lastModified": 1762639675,
+        "narHash": "sha256-ndftVw8DzLHkYHLKRbdBx1jad3yl796teFVX2sS3Zkc=",
         "owner": "theverygaming",
         "repo": "website",
-        "rev": "4eb63c536757b9a399f97f0ea779ad1e5313d6a3",
+        "rev": "b22ac2dbd62e40ad3905776c580960234389e295",
         "type": "github"
       },
       "original": {
