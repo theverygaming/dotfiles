@@ -25,9 +25,9 @@ in
       type = lib.types.str;
       default = ''
         @everyone Service `%i` failed on `${config.networking.hostName}`
-        flake commit: `${
-          if builtins.hasAttr "rev" flakeInputs.self then flakeInputs.self.rev else flakeInputs.self.dirtyRev
-        }`
+        flake commit: `${flakeInputs.self.rev or flakeInputs.self.dirtyRev or "unknown"}`
+        flake modification date: <t:${builtins.toString (flakeInputs.self.lastModified or "unknown")}:f>
+        flake outPath: `${flakeInputs.self.outPath}`
       '';
     };
     hookAllServices = lib.mkOption {
