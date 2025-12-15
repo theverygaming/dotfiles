@@ -3,7 +3,6 @@
   lib,
   pkgs,
   flakeInputs,
-  flakeSelf,
   ...
 }:
 
@@ -26,7 +25,9 @@ in
       type = lib.types.str;
       default = ''
         @everyone Service `%i` failed on `${config.networking.hostName}`
-        flake commit: `${if builtins.hasAttr "rev" flakeSelf then flakeSelf.rev else flakeSelf.dirtyRev}`
+        flake commit: `${
+          if builtins.hasAttr "rev" flakeInputs.self then flakeInputs.self.rev else flakeInputs.self.dirtyRev
+        }`
       '';
     };
     hookAllServices = lib.mkOption {

@@ -57,10 +57,6 @@
           allHosts =
             with inputs.nixpkgs.lib;
             (attrNames (filterAttrs (x: type: type == "directory") (builtins.readDir ./hosts)));
-          flakeArgs = {
-            flakeInputs = inputs;
-            flakeSelf = self;
-          };
         in
         {
           meta = {
@@ -72,10 +68,14 @@
             nodeNixpkgs = (
               with inputs.nixpkgs.lib;
               listToAttrs (
-                map (name: nameValuePair name (import (./. + "/hosts/${name}/nixpkgs.nix") flakeArgs)) allHosts
+                map (
+                  name: nameValuePair name (import (./. + "/hosts/${name}/nixpkgs.nix") { flakeInputs = inputs; })
+                ) allHosts
               )
             );
-            specialArgs = flakeArgs;
+            specialArgs = {
+              flakeInputs = inputs;
+            };
           };
           defaults =
             { name, ... }:
