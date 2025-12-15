@@ -25,7 +25,7 @@ in
         containerization.enable = lib.mkDefault true;
       };
 
-      flake_auto_upgrade.enable = false; # FIXME: this thing is borked (it should not get the flake from git)
+      flake_auto_upgrade.enable = true;
 
       systemd_discord_notif.enable = true;
       systemd_discord_notif.webhookURLFile = config.sops.secrets.discord_notif_webhook_url.path;
