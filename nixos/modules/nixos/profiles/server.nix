@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  flakeInputs,
   ...
 }:
 
@@ -14,6 +15,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    sops.secrets.discord_notif_webhook_url = {
+      sopsFile = flakeInputs.secrets + "/common/notifications.yaml";
+    };
     custom = {
       profiles.base.enable = lib.mkDefault true;
 
@@ -22,6 +26,9 @@ in
       };
 
       flake_auto_upgrade.enable = false; # FIXME: this thing is borked (it should not get the flake from git)
+
+      systemd_discord_notif.enable = true;
+      systemd_discord_notif.webhookURLFile = config.sops.secrets.discord_notif_webhook_url.path;
 
       monitoring.enable = true;
     };

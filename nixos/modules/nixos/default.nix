@@ -11,5 +11,6 @@
     ./monitoring.nix
     ./microvm.nix
     ./sway.nix
+    ./systemd_discord_notif.nix
   ];
 }

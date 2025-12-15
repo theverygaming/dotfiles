@@ -57,6 +57,10 @@
           allHosts =
             with inputs.nixpkgs.lib;
             (attrNames (filterAttrs (x: type: type == "directory") (builtins.readDir ./hosts)));
+          flakeArgs = {
+            flakeInputs = inputs;
+            flakeSelf = self;
+          };
         in
         {
           meta = {
@@ -68,14 +72,10 @@
             nodeNixpkgs = (
               with inputs.nixpkgs.lib;
               listToAttrs (
-                map (
-                  name: nameValuePair name (import (./. + "/hosts/${name}/nixpkgs.nix") { flakeInputs = inputs; })
-                ) allHosts
+                map (name: nameValuePair name (import (./. + "/hosts/${name}/nixpkgs.nix") flakeArgs)) allHosts
               )
             );
-            specialArgs = {
-              flakeInputs = inputs;
-            };
+            specialArgs = flakeArgs;
           };
           defaults =
             { name, ... }:
@@ -109,7 +109,7 @@
         }
         // (with inputs.nixpkgs.lib; listToAttrs (map (x: nameValuePair x { }) allHosts));
       colmenaHive = inputs.colmena.lib.makeHive self.outputs.colmena;
-      # nix run github:zhaofengli/colmena -- apply --on ... --verbose --show-trace
+      # nix run github:zhaofengli/colmena -- apply --on ... --verbose --show-trace --build-on-target
 
       nixosConfigurations = (inputs.colmena.lib.makeHive self.outputs.colmena).nodes;
     };
