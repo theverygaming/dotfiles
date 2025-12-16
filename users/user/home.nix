@@ -12,9 +12,6 @@ in
 {
   imports = [
     ../../modules/home-manager
-  ]
-  ++ builtins.concatLists [
-    (lib.optional osConfig.services.xserver.desktopManager.xfce.enable ./gui/xfce.nix)
   ];
 
   home.username = "user";
