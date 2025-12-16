@@ -65,21 +65,5 @@
     };
   };
 
-  security.pki.certificateFiles = [
-    "${pkgs.writeText "custom_ca_root.crt" ''
-      -----BEGIN CERTIFICATE-----
-      MIIBjDCCATKgAwIBAgIRAIrIXrNg6iv7fMPaZWa8YI4wCgYIKoZIzj0EAwIwJDEM
-      MAoGA1UEChMDdXd1MRQwEgYDVQQDEwt1d3UgUm9vdCBDQTAeFw0yNTA1MTMxOTIy
-      MzJaFw0zNTA1MTExOTIyMzJaMCQxDDAKBgNVBAoTA3V3dTEUMBIGA1UEAxMLdXd1
-      IFJvb3QgQ0EwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQO00kuubBlg3tIUYZT
-      gZY81dty01zM/k/wkHXS6oLz13kaKWZqzdFAfqm7KHz7A8oQXfbwQBQjrg1BS6Lr
-      NLDCo0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBATAdBgNV
-      HQ4EFgQUNdvO5aYqgKAW/rX1SKntAZmZqs4wCgYIKoZIzj0EAwIDSAAwRQIgAjfg
-      RVAzzrtG1ZoS5u97DlGKCHlzYTP5+ay1NOxneswCIQDxs7mDc+7umJ/nOBMiAiI9
-      cSUW5KcgaacjuytC5X3Ddw==
-      -----END CERTIFICATE-----
-    ''}"
-  ];
-
   nix.settings.download-buffer-size = 4096 * 1024 * 1024;
 }

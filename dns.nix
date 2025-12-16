@@ -48,20 +48,6 @@ in
               ];
             };
 
-            "services" = {
-              subdomains = {
-                "local" = {
-                  subdomains = {
-                    "ca" = {
-                      A = [
-                        "10.13.12.1"
-                      ];
-                    };
-                  };
-                };
-              };
-            };
-
             # FIXME: this is ass, refine DNS
             "infra" = {
               subdomains = {

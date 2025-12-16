@@ -10,7 +10,6 @@
     enable = true;
     globalConfig = ''
       metrics
-      acme_ca https://ca.local.services.theverygaming.furrypri.de:8443/acme/acme/directory
     '';
     virtualHosts = {
       "amde350.local.infra.theverygaming.furrypri.de".extraConfig = ''
