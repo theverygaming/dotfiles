@@ -19,6 +19,7 @@
             { pkgs, ... }:
             {
               system.stateVersion = "25.05";
+              services.postgresql.package = pkgs.postgresql_16;
               microvm = {
                 mem = 2048;
                 vcpu = 2;
@@ -43,15 +44,15 @@
                 wantedBy = [ "postgresql.service" ];
                 before = [ "postgresql.service" ];
                 script = ''
-                  mkdir -p "/persistent/pg_data/${config.services.postgresql.package.psqlSchema}"
-                  chown postgres:postgres "/persistent/pg_data/${config.services.postgresql.package.psqlSchema}"
+                  mkdir -p "/persistent/pg_data/${pkgs.postgresql_16.psqlSchema}"
+                  chown postgres:postgres "/persistent/pg_data/${pkgs.postgresql_16.psqlSchema}"
                 '';
                 serviceConfig = {
                   Type = "oneshot";
                   RemainAfterExit = true;
                 };
               };
-              services.postgresql.dataDir = "/persistent/pg_data/${config.services.postgresql.package.psqlSchema}";
+              services.postgresql.dataDir = "/persistent/pg_data/${pkgs.postgresql_16.psqlSchema}";
               systemd.services.create_odoo_data_dir = {
                 description = "Create Odoo data directory";
                 wantedBy = [ "odoo.service" ];
