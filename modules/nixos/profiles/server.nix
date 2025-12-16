@@ -29,8 +29,6 @@ in
 
       systemd_discord_notif.enable = true;
       systemd_discord_notif.webhookURLFile = config.sops.secrets.discord_notif_webhook_url.path;
-
-      monitoring.enable = true;
     };
 
     nix.optimise.automatic = true;

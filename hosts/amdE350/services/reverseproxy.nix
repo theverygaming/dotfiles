@@ -8,9 +8,6 @@
 
   services.caddy = {
     enable = true;
-    globalConfig = ''
-      metrics
-    '';
     virtualHosts = {
       "amde350.local.infra.theverygaming.furrypri.de".extraConfig = ''
         reverse_proxy 10.69.0.2:8069
@@ -23,9 +20,4 @@
       '';
     };
   };
-
-  custom.monitoring.promScrapeTargets = [
-    # Caddy
-    "127.0.0.1:2019"
-  ];
 }

@@ -13,9 +13,6 @@
 
   services.caddy = {
     enable = true;
-    globalConfig = ''
-      metrics
-    '';
     virtualHosts =
       let
         website_built =
@@ -75,9 +72,4 @@
         '';
       };
   };
-
-  custom.monitoring.promScrapeTargets = [
-    # Caddy
-    "127.0.0.1:2019"
-  ];
 }

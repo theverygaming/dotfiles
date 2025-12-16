@@ -41,22 +41,4 @@
     80 # HTTP
     443 # HTTPS
   ];
-
-  custom.wg_mesh.firewall.allowedTCPPorts = [
-    9091 # FIXME: grafana (debugging)
-  ];
-
-  services.grafana = {
-    enable = true;
-    #domain = "grafana.pele";
-    settings.server = {
-      http_port = 9091;
-      http_addr = "10.13.12.4";
-    };
-  };
-
-  custom.monitoring.promScrapeTargets5s = [
-    # smart meter
-    "192.168.178.40:80"
-  ];
 }
