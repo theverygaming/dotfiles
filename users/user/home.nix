@@ -10,10 +10,6 @@ let
   isGui = osConfig.services.xserver.enable;
 in
 {
-  imports = [
-    ../../modules/home-manager
-  ];
-
   home.username = "user";
   home.homeDirectory = "/home/user";
 
