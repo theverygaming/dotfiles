@@ -6,11 +6,11 @@
     ./hardware-configuration.nix # hardware scan results
 
     ../../common
-    ../../configs/i3.nix
     ../../users
   ];
 
   custom.profiles.desktop.enable = true;
+  custom.desktops.i3.enable = true;
 
   # Bootloader.
   boot.loader = {
