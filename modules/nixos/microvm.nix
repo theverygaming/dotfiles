@@ -11,7 +11,7 @@ let
 in
 {
   options.custom.microvm = with lib; {
-    enable = mkEnableOption "Enables the WireGuard mesh";
+    enable = mkEnableOption "Enables microvm";
     hostIp = mkOption {
       type = types.str;
       default = "10.69.0.1";
