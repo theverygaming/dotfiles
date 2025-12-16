@@ -15,7 +15,6 @@ in
   ]
   ++ builtins.concatLists [
     (lib.optional osConfig.services.xserver.desktopManager.xfce.enable ./gui/xfce.nix)
-    (lib.optional osConfig.programs.sway.enable ./gui/sway.nix)
   ];
 
   home.username = "user";
