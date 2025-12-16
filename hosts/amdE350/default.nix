@@ -7,14 +7,13 @@
 
     ../../common
     ../../users
-    ../../configs/wireguard_mesh.nix
     ./services
   ];
 
   custom.profiles.server.enable = true;
 
   deployment = {
-    targetHost = "amdE350.local.infra.theverygaming.furrypri.de";
+    targetHost = "amdE350.lan.infra.theverygaming.furrypri.de";
     targetPort = 2222;
     targetUser = "root";
   };

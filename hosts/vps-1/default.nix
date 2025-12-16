@@ -7,7 +7,6 @@
 
     ../../common
     ../../users
-    ../../configs/wireguard_mesh.nix
     ./services
   ];
 

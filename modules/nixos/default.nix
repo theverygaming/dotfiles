@@ -6,7 +6,6 @@
     ./pkggroups
     ./public_webserver.nix
     ./flake_autoupgrade.nix
-    ./wg_mesh.nix
     ./microvm.nix
     ./systemd_discord_notif.nix
   ];
