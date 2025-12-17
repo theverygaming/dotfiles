@@ -23,6 +23,7 @@ in
 
       pkggroups = {
         containerization.enable = lib.mkDefault true;
+        containerization.rootless = lib.mkDefault false;
       };
 
       flake_auto_upgrade.enable = true;

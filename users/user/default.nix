@@ -25,9 +25,8 @@
       "wheel"
       "plugdev"
       "dialout"
-      "docker"
     ]
-    ++ (lib.optional config.networking.networkmanager.enable "networkmanager"); # TODO: docker group if docker installed
+    ++ (lib.optional config.networking.networkmanager.enable "networkmanager");
 
     openssh.authorizedKeys.keys = [
       ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGGEXP+YFeEihXZGZjtvbthkNayMOXwMLLtugMS7YAdS''
