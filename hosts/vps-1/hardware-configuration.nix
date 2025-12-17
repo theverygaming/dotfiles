@@ -22,12 +22,20 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
+  # enable DHCP to get an IPv4 address
+  networking.interfaces.enp1s0.useDHCP = true;
+
+  # IPv6!! :3
+  networking.interfaces.enp1s0.ipv6.addresses = [
+    {
+      address = "2a01:4f8:1c1b:c957::1";
+      prefixLength = 64;
+    }
+  ];
+  networking.defaultGateway6 = {
+    address = "fe80::1";
+    interface = "enp1s0";
+  };
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 }
