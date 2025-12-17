@@ -46,11 +46,7 @@ in
           }:
           let
             cfg = config.custom.desktop.sway;
-            # TODO: centralize background config!
-            background = pkgs.fetchurl {
-              url = "https://xenia.chimmie.k.vu/art/bin/xenia_drawing5-1.png";
-              hash = "sha256-5G1QJ75aDCQsdmdZE95rZN7Yj9yyIshhdjGAzDMykos=";
-            };
+            background = config.custom.desktop.background;
           in
           {
             home.packages = with pkgs; [

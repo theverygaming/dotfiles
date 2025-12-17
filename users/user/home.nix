@@ -28,4 +28,9 @@ in
 
   custom.flake_channels.enable = true;
   custom.zsh_config.enable = true;
+
+  custom.desktop.background = pkgs.fetchurl {
+    url = "https://xenia.chimmie.k.vu/art/bin/xenia_drawing5-1.png";
+    hash = "sha256-5G1QJ75aDCQsdmdZE95rZN7Yj9yyIshhdjGAzDMykos=";
+  };
 }
