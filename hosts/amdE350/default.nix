@@ -40,4 +40,6 @@
     80 # HTTP
     443 # HTTPS
   ];
+
+  system.stateVersion = "25.05";
 }

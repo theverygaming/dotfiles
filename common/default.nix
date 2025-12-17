@@ -34,9 +34,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # FIXME: this is a.. bad place
-  system.stateVersion = "25.05";
-
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"

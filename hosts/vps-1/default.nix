@@ -32,4 +32,6 @@
   # Networking
   networking.hostName = "vps-1";
   networking.networkmanager.enable = true;
+
+  system.stateVersion = "25.05";
 }

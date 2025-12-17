@@ -52,4 +52,6 @@
     pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
   };
+
+  system.stateVersion = "25.05";
 }

@@ -92,4 +92,6 @@
 
   sops.defaultSopsFile = flakeInputs.secrets + "/empty.yaml";
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+
+  system.stateVersion = "25.05";
 }
