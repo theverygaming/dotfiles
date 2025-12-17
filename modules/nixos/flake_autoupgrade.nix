@@ -5,7 +5,6 @@
   ...
 }:
 
-# TODO: whether this runs successfully or not should be monitored
 let
   cfg = config.custom.flake_auto_upgrade;
 in
