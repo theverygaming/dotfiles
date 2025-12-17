@@ -10,7 +10,7 @@
   ];
 
   custom.profiles.desktop.enable = true;
-  custom.desktops.i3.enable = true;
+  custom.desktop.i3.enable = true;
 
   # Bootloader.
   boot.loader = {

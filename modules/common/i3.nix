@@ -6,10 +6,10 @@
 }:
 
 let
-  cfg = config.custom.desktops.i3;
+  cfg = config.custom.desktop.i3;
 in
 {
-  options.custom.desktops.i3 = {
+  options.custom.desktop.i3 = {
     enable = lib.mkEnableOption "Enable i3 desktop";
   };
 
@@ -55,7 +55,7 @@ in
             ...
           }:
           let
-            cfg = config.custom.desktops.i3;
+            cfg = config.custom.desktop.i3;
           in
           {
 
@@ -66,7 +66,7 @@ in
     {
       home-manager.sharedModules = [
         {
-          options.custom.desktops.i3 = { };
+          options.custom.desktop.i3 = { };
         }
       ];
     }

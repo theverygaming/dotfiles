@@ -6,10 +6,10 @@
 }:
 
 let
-  cfg = config.custom.desktops.sway;
+  cfg = config.custom.desktop.sway;
 in
 {
-  options.custom.desktops.sway = {
+  options.custom.desktop.sway = {
     enable = lib.mkEnableOption "Enable sway desktop";
   };
 
@@ -45,7 +45,7 @@ in
             ...
           }:
           let
-            cfg = config.custom.desktops.sway;
+            cfg = config.custom.desktop.sway;
             # TODO: centralize background config!
             background = pkgs.fetchurl {
               url = "https://xenia.chimmie.k.vu/art/bin/xenia_drawing5-1.png";
@@ -159,7 +159,7 @@ in
     {
       home-manager.sharedModules = [
         {
-          options.custom.desktops.sway = { };
+          options.custom.desktop.sway = { };
         }
       ];
     }

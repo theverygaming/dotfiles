@@ -6,10 +6,10 @@
 }:
 
 let
-  cfg = config.custom.desktops.gnome;
+  cfg = config.custom.desktop.gnome;
 in
 {
-  options.custom.desktops.gnome = {
+  options.custom.desktop.gnome = {
     enable = lib.mkEnableOption "Enable GNOME desktop";
   };
 
@@ -53,7 +53,7 @@ in
             ...
           }:
           let
-            cfg = config.custom.desktops.gnome;
+            cfg = config.custom.desktop.gnome;
           in
           {
             home.packages =
@@ -239,7 +239,7 @@ in
     {
       home-manager.sharedModules = [
         {
-          options.custom.desktops.gnome = { };
+          options.custom.desktop.gnome = { };
         }
       ];
     }
