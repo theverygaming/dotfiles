@@ -8,7 +8,7 @@ let
       SOA = {
         nameServer = "ns1.theverygaming.furrypri.de.";
         adminEmail = "m@screee.ee";
-        serial = 2025121601; # The recommended syntax is YYYYMMDDnn (YYYY=year, MM=month, DD=day, nn=revision number
+        serial = 2025121701; # The recommended syntax is YYYYMMDDnn (YYYY=year, MM=month, DD=day, nn=revision number
         refresh = 60 * 60;
         retry = 60 * 30;
         expire = 60 * 60 * 24;
@@ -25,9 +25,11 @@ in
       "m.furrypri.de" = (
         with flakeInputs.dns.lib.combinators;
         {
-          # TODO: AAAA
           A = [
             "159.69.26.5"
+          ];
+          AAAA = [
+            "2a01:4f8:1c1b:c957::1"
           ];
         }
         // zone_common
@@ -35,16 +37,20 @@ in
       "theverygaming.furrypri.de" = (
         with flakeInputs.dns.lib.combinators;
         {
-          # TODO: AAAA
           A = [
             "159.69.26.5"
+          ];
+          AAAA = [
+            "2a01:4f8:1c1b:c957::1"
           ];
 
           subdomains = {
             "ns1" = {
-              # TODO: AAAA
               A = [
                 "159.69.26.5"
+              ];
+              AAAA = [
+                "2a01:4f8:1c1b:c957::1"
               ];
             };
 
@@ -64,7 +70,9 @@ in
                   A = [
                     "159.69.26.5"
                   ];
-                  # TODO: AAAA
+                  AAAA = [
+                    "2a01:4f8:1c1b:c957::1"
+                  ];
                 };
                 "vps-old" = {
                   A = [
