@@ -94,6 +94,9 @@
                         nur_theverygaming = flakeInputs.nur_theverygaming.packages."${config.nixpkgs.system}";
                       })
                     ];
+                    # lib.nixosSystem would set this but: https://github.com/zhaofengli/colmena/issues/60
+                    # https://github.com/NixOS/nixpkgs/blob/5223d4097bb2c9e89d133f61f898df611d5ea3ca/flake.nix#L74C19-L74C62
+                    nixpkgs.flake.source = inputs.nixpkgs.outPath;
                   }
                 )
                 ./modules/common
