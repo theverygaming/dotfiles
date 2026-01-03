@@ -11,6 +11,13 @@ in
 {
   options.custom.desktop.sway = {
     enable = lib.mkEnableOption "Enable sway desktop";
+    monitor_cfg = lib.mkOption {
+      default = "";
+      type = lib.types.str;
+      description = ''
+        sway monitor configuration
+      '';
+    };
   };
 
   config = lib.mkMerge [
@@ -45,7 +52,6 @@ in
             ...
           }:
           let
-            cfg = config.custom.desktop.sway;
             background = config.custom.desktop.background;
           in
           {
@@ -108,7 +114,8 @@ in
                 corner_radius 10
 
                 shadows disable
-              '';
+              ''
+              + cfg.monitor_cfg;
             };
 
             programs.waybar = {
