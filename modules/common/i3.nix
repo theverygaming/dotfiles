@@ -16,7 +16,7 @@ in
   config = lib.mkMerge [
     (lib.mkIf cfg.enable {
       environment.systemPackages = with pkgs; [
-        xfce.xfce4-terminal
+        xfce4-terminal
         i3lock-fancy
       ];
 

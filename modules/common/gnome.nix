@@ -65,7 +65,7 @@ in
               ]
               ++ (with pkgs; [
                 gnome-boxes # VNC etc. tool
-                xfce.xfce4-terminal
+                xfce4-terminal
               ]);
 
             dconf.settings = {
