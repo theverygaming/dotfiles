@@ -79,7 +79,6 @@ in
                   };
                 };
 
-                ## eye candy starts here
                 colors = {
                   focused = {
                     background = "#FFFFFF";
@@ -93,28 +92,23 @@ in
                   smartGaps = false;
                   inner = 10;
                 };
-                ## eye candy ends here
               };
-              # layer_effects "waybar" corner_radius 0
-              extraConfig = (
-                ## eye candy starts here
-                ''
-                  output * bg ${background} fill
 
-                  blur enable
-                  blur_passes 3
-                  blur_radius 2
-                  blur_noise 0.1
-                  blur_brightness 1.0
-                  blur_contrast 1.0
-                  blur_saturation 1.0
+              extraConfig = ''
+                output * bg ${background} fill
 
-                  corner_radius 10
+                blur enable
+                blur_passes 3
+                blur_radius 2
+                blur_noise 0.1
+                blur_brightness 1.0
+                blur_contrast 1.0
+                blur_saturation 1.0
 
-                  shadows disable
-                ''
-                ## eye candy ends here
-              );
+                corner_radius 10
+
+                shadows disable
+              '';
             };
 
             programs.waybar = {
@@ -123,30 +117,55 @@ in
                 mainBar = {
                   layer = "top";
                   position = "top";
-                  height = 32;
+                  margin-top = 5;
+                  margin-left = 10;
+                  margin-right = 10;
+                  height = 34;
+                  spacing = 0;
                   modules-left = [
                     "sway/workspaces"
                     "sway/mode"
-                    "tray"
+                    "sway/window"
                   ];
-                  modules-center = [ "sway/window" ];
+                  modules-center = [ "clock" ];
                   modules-right = [
+                    "backlight"
+                    "tray"
                     "pulseaudio"
                     "battery"
                     "temperature"
                     "cpu"
                     "memory"
                     "network"
-                    "clock"
                   ];
 
                   "sway/workspaces" = {
                     disable-scroll = true;
                     all-outputs = true;
                   };
+
+                  "clock" = {
+                    format = "C {:%T %Y-%m-%d}";
+                    interval = 1;
+                  };
                 };
               };
-              style = '''';
+              style = ''
+                window#waybar {
+                  background-color: transparent;
+                  color: #ffffff;
+                }
+
+                .modules-left, .modules-center, .modules-right {
+                  background-color: #3f3f3f;
+                  border-radius: 20px;
+                  padding: 0 20px;
+                }
+
+                .module {
+                  margin: 0 5px;
+                }
+              '';
             };
           }
         )
