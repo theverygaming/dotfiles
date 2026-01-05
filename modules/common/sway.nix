@@ -48,6 +48,7 @@ in
           {
             pkgs,
             lib,
+            osConfig,
             config,
             ...
           }:
@@ -59,6 +60,9 @@ in
               kitty
               swaybg
               wofi
+              grim
+              slurp
+              wl-clipboard
             ];
 
             wayland.windowManager.sway = {
@@ -96,7 +100,11 @@ in
                 };
                 gaps = {
                   smartGaps = false;
-                  inner = 10;
+                  inner = 5;
+                };
+                keybindings = lib.mkOptionDefault {
+                  # screenshot
+                  "${modifier}+Shift+s" = ''exec grim -g "$(slurp)" - | wl-copy'';
                 };
               };
 
@@ -136,9 +144,11 @@ in
                   ];
                   modules-center = [ "clock" ];
                   modules-right = [
-                    "backlight"
                     "tray"
+                    "custom/separator"
                     "pulseaudio"
+                    "backlight"
+                    "custom/separator"
                     "battery"
                     "temperature"
                     "cpu"
@@ -152,27 +162,81 @@ in
                   };
 
                   "clock" = {
-                    format = "C {:%T %Y-%m-%d}";
+                    format = "C {:%Y-%m-%dT%T%z}";
                     interval = 1;
+                  };
+
+                  "custom/separator" = {
+                    format = "|";
+                    interval = "once";
+                    tooltip = false;
+                  };
+
+                  "cpu" = {
+                    interval = 1;
+                    format = "C {usage:3}%";
+                  };
+
+                  "memory" = {
+                    interval = 5;
+                    format = "M {used:4.1f}GiB";
+                  };
+
+                  "network" = {
+                    interval = 5;
+                    format = "N {bandwidthTotalBits}";
+                    min-length = 11;
+                  };
+
+                  "pulseaudio" = rec {
+                    format = "{icon} {volume}% {format_source}";
+                    # TODO: format-bluetooth
+                    format-source = "M {volume}%";
+                    format-icons = [ "A" ];
                   };
                 };
               };
               style = ''
+                * {
+                  font-family: ${
+                    lib.concatStringsSep ", " (
+                      map (x: "\"${x}\"") (
+                        if config.fonts.fontconfig.defaultFonts.monospace != [ ] then
+                          config.fonts.fontconfig.defaultFonts.monospace
+                        else
+                          osConfig.fonts.fontconfig.defaultFonts.monospace
+                      )
+                    )
+                  };
+                }
+
                 window#waybar {
-                  background-color: transparent;
+                  background-color: rgba(50, 50, 50, 0.4);
                   color: #ffffff;
+                  border-radius: 10px;
                 }
 
                 .modules-left, .modules-center, .modules-right {
-                  background-color: #3f3f3f;
-                  border-radius: 20px;
-                  padding: 0 20px;
+                  padding: 0 10px;
                 }
 
                 .module {
                   margin: 0 5px;
                 }
+
+                #custom-separator {
+                  color: #9B59D0;
+                }
               '';
+            };
+
+            home.pointerCursor = {
+              name = "macOS";
+              package = pkgs.apple-cursor;
+              size = 22;
+              sway.enable = true;
+              x11.enable = true;
+              gtk.enable = true;
             };
           }
         )
