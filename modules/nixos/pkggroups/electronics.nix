@@ -16,5 +16,10 @@ in
   config = lib.mkIf cfg.enable {
     # logic analyzer stuff
     programs.pulseview.enable = true;
+
+    environment.systemPackages = with pkgs; [
+      # convenient serial IO tool
+      tio
+    ];
   };
 }
