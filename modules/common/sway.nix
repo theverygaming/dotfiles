@@ -43,6 +43,10 @@ in
         ];
       };
 
+      fonts.packages = [
+        pkgs.nerd-fonts.symbols-only
+      ];
+
       home-manager.sharedModules = [
         (
           {
@@ -64,6 +68,41 @@ in
               slurp
               wl-clipboard
             ];
+
+            programs.swaylock = {
+              enable = true;
+              settings = {
+                ignore-empty-password = true;
+                show-failed-attempts = true;
+                daemonize = true;
+                image = toString (
+                  pkgs.runCommand "background-blurred" { } ''
+                    ${pkgs.imagemagick}/bin/convert ${background} -blur 0x6 $out
+                  ''
+                );
+                scaling = "fill";
+                color = "000000";
+                show-keyboard-layout = true;
+              };
+            };
+
+            services.swayidle = {
+              enable = true;
+              events = {
+                before-sleep = "${pkgs.swaylock}/bin/swaylock";
+              };
+              timeouts = [
+                {
+                  timeout = 1200;
+                  command = "${pkgs.swayfx}/bin/swaymsg output \\* dpms off";
+                  resumeCommand = "${pkgs.swayfx}/bin/swaymsg output \\* dpms on";
+                }
+                {
+                  timeout = 1200;
+                  command = "${pkgs.swaylock}/bin/swaylock";
+                }
+              ];
+            };
 
             wayland.windowManager.sway = {
               enable = true;
@@ -104,7 +143,8 @@ in
                 };
                 keybindings = lib.mkOptionDefault {
                   # screenshot
-                  "${modifier}+Shift+s" = ''exec grim -g "$(slurp)" - | wl-copy'';
+                  "${modifier}+Shift+s" = "exec grim -g \"$(slurp)\" - | wl-copy";
+                  "${modifier}+l" = "exec swaylock";
                 };
               };
 
@@ -154,6 +194,8 @@ in
                     "cpu"
                     "memory"
                     "network"
+                    "custom/separator"
+                    "custom/power"
                   ];
 
                   "sway/workspaces" = {
@@ -179,12 +221,20 @@ in
 
                   "memory" = {
                     interval = 5;
-                    format = "M {used:4.1f}GiB";
+                    format = "M {percentage:3}%";
                   };
 
                   "network" = {
                     interval = 5;
-                    format = "N {bandwidthTotalBits}";
+                    format = "󰛳 {bandwidthTotalBits}";
+                    format-ethernet = " {bandwidthTotalBits}";
+                    format-wifi = "{icon} {bandwidthTotalBits}";
+                    format-icons = [
+                      "󰤟"
+                      "󰤢"
+                      "󰤥"
+                      "󰤨"
+                    ];
                     min-length = 11;
                   };
 
@@ -193,6 +243,51 @@ in
                     # TODO: format-bluetooth
                     format-source = "M {volume}%";
                     format-icons = [ "A" ];
+                  };
+
+                  "custom/power" = {
+                    format = "⏻";
+                    tooltip = false;
+                    menu = "on-click";
+                    menu-file = pkgs.writeText "waybar-power-menufile" ''
+                      <?xml version="1.0" encoding="UTF-8"?>
+                      <interface>
+                        <object class="GtkMenu" id="menu">
+                          <child>
+                            <object class="GtkMenuItem" id="lock">
+                              <property name="label">Lock</property>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkSeparatorMenuItem" id="sep1"/>
+                          </child>
+                          <child>
+                            <object class="GtkMenuItem" id="suspend">
+                              <property name="label">Suspend</property>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkSeparatorMenuItem" id="sep2"/>
+                          </child>
+                          <child>
+                            <object class="GtkMenuItem" id="reboot">
+                              <property name="label">Reboot</property>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkMenuItem" id="shutdown">
+                              <property name="label">Shutdown</property>
+                            </object>
+                          </child>
+                        </object>
+                      </interface>
+                    '';
+                    menu-actions = {
+                      lock = "swaylock";
+                      suspend = "systemctl suspend";
+                      reboot = "reboot";
+                      shutdown = "shutdown";
+                    };
                   };
                 };
               };
