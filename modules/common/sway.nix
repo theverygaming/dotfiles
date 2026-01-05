@@ -204,7 +204,7 @@ in
                   };
 
                   "clock" = {
-                    format = "C {:%Y-%m-%dT%T%z}";
+                    format = " {:%Y-%m-%dT%T%z}";
                     interval = 1;
                   };
 
@@ -216,12 +216,12 @@ in
 
                   "cpu" = {
                     interval = 1;
-                    format = "C {usage:3}%";
+                    format = " {usage:3}%";
                   };
 
                   "memory" = {
                     interval = 5;
-                    format = "M {percentage:3}%";
+                    format = " {percentage:3}%";
                   };
 
                   "network" = {
@@ -235,14 +235,18 @@ in
                       "󰤥"
                       "󰤨"
                     ];
-                    min-length = 11;
+                    min-length = 12;
                   };
 
                   "pulseaudio" = rec {
                     format = "{icon} {volume}% {format_source}";
                     # TODO: format-bluetooth
-                    format-source = "M {volume}%";
-                    format-icons = [ "A" ];
+                    format-source = " {volume}%";
+                    format-icons = [
+                      "󰕿"
+                      "󰖀"
+                      "󰕾"
+                    ];
                   };
 
                   "custom/power" = {
@@ -296,10 +300,13 @@ in
                   font-family: ${
                     lib.concatStringsSep ", " (
                       map (x: "\"${x}\"") (
-                        if config.fonts.fontconfig.defaultFonts.monospace != [ ] then
-                          config.fonts.fontconfig.defaultFonts.monospace
-                        else
-                          osConfig.fonts.fontconfig.defaultFonts.monospace
+                        (
+                          if config.fonts.fontconfig.defaultFonts.monospace != [ ] then
+                            config.fonts.fontconfig.defaultFonts.monospace
+                          else
+                            osConfig.fonts.fontconfig.defaultFonts.monospace
+                        )
+                        ++ [ "Symbols Nerd Font Mono" ]
                       )
                     )
                   };
