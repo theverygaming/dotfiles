@@ -78,7 +78,7 @@ in
                   background = "323232B0";
                   text = "ffffffff";
                   prompt = "ffffffff";
-                  placeholder = "ffffffff"; # FIXME: ?? idk what this is lmao
+                  placeholder = "ffffffff";
                   input = "ffffffff";
                   selection = "9b59d0B0";
                   selection-text = "ffffffff";
@@ -134,7 +134,7 @@ in
                 menu = "fuzzel";
                 window.titlebar = false;
 
-                defaultWorkspace = "workspace number 1"; # TODO: figure out workspaces..
+                defaultWorkspace = "workspace number 1";
 
                 bars = [
                   {
@@ -289,7 +289,25 @@ in
                   "clock" = {
                     format = " {:%Y-%m-%dT%T%z}";
                     interval = 1;
-                    # TODO: calendar on hover,, pweass,
+                    tooltip-format = "<tt><small>{calendar}</small></tt>";
+                    calendar = {
+                      mode = "year";
+                      mode-mon-col = 3;
+                      weeks-pos = "right";
+                      on-scroll = 1;
+                      format = {
+                        months = "<span color='#ffead3'><b>{}</b></span>";
+                        days = "<span color='#ecc6d9'><b>{}</b></span>";
+                        weeks = "<span color='#99ffdd'><b>W{}</b></span>";
+                        weekdays = "<span color='#ffcc66'><b>{}</b></span>";
+                        today = "<span color='#ff6699'><b><u>{}</u></b></span>";
+                      };
+                    };
+                    actions = {
+                      on-click-right = "mode";
+                      on-scroll-up = "shift_up";
+                      on-scroll-down = "shift_down";
+                    };
                   };
 
                   "custom/separator" = {
