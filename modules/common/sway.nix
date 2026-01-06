@@ -63,11 +63,31 @@ in
             home.packages = with pkgs; [
               kitty
               swaybg
-              wofi
               grim
               slurp
               wl-clipboard
             ];
+
+            programs.fuzzel = {
+              enable = true;
+              settings = {
+                main = {
+                  terminal = "kitty";
+                };
+                colors = {
+                  background = "323232B0";
+                  text = "ffffffff";
+                  prompt = "ffffffff";
+                  placeholder = "ffffffff"; # FIXME: ?? idk what this is lmao
+                  input = "ffffffff";
+                  selection = "9b59d0B0";
+                  selection-text = "ffffffff";
+                };
+                border = {
+                  selection-radius = 10;
+                };
+              };
+            };
 
             programs.swaylock = {
               enable = true;
@@ -111,7 +131,7 @@ in
               config = rec {
                 modifier = "Mod4"; # super key
                 terminal = "kitty";
-                menu = "wofi --show run";
+                menu = "fuzzel";
                 window.titlebar = false;
 
                 defaultWorkspace = "workspace number 1"; # TODO: figure out workspaces..
@@ -130,7 +150,7 @@ in
 
                 colors = {
                   focused = {
-                    background = "#FFFFFF";
+                    background = "#32323266";
                     border = "#9B59D0";
                     childBorder = "#9B59D0";
                     indicator = "#9B59D0";
@@ -141,10 +161,73 @@ in
                   smartGaps = false;
                   inner = 5;
                 };
-                keybindings = lib.mkOptionDefault {
+                keybindings = {
+                  # standard stuff (yes, I know home-manager defaults define these - and I could use those - but I do not like a bunch of the defaults sooo uhh :3)
+                  "${modifier}+Return" = "exec ${terminal}";
+                  "${modifier}+Shift+q" = "kill";
+                  "${modifier}+d" = "exec ${menu}";
+                  "${modifier}+Left" = "focus left";
+                  "${modifier}+Down" = "focus down";
+                  "${modifier}+Up" = "focus up";
+                  "${modifier}+Right" = "focus right";
+                  "${modifier}+Shift+Left" = "move left";
+                  "${modifier}+Shift+Down" = "move down";
+                  "${modifier}+Shift+Up" = "move up";
+                  "${modifier}+Shift+Right" = "move right";
+                  "${modifier}+f" = "fullscreen toggle";
+                  "${modifier}+s" = "layout stacking";
+                  "${modifier}+w" = "layout tabbed";
+                  "${modifier}+e" = "layout toggle split";
+                  "${modifier}+Shift+space" = "floating toggle";
+                  "${modifier}+1" = "workspace number 1";
+                  "${modifier}+2" = "workspace number 2";
+                  "${modifier}+3" = "workspace number 3";
+                  "${modifier}+4" = "workspace number 4";
+                  "${modifier}+5" = "workspace number 5";
+                  "${modifier}+6" = "workspace number 6";
+                  "${modifier}+7" = "workspace number 7";
+                  "${modifier}+8" = "workspace number 8";
+                  "${modifier}+9" = "workspace number 9";
+                  "${modifier}+0" = "workspace number 10";
+                  "${modifier}+Shift+1" = "move container to workspace number 1";
+                  "${modifier}+Shift+2" = "move container to workspace number 2";
+                  "${modifier}+Shift+3" = "move container to workspace number 3";
+                  "${modifier}+Shift+4" = "move container to workspace number 4";
+                  "${modifier}+Shift+5" = "move container to workspace number 5";
+                  "${modifier}+Shift+6" = "move container to workspace number 6";
+                  "${modifier}+Shift+7" = "move container to workspace number 7";
+                  "${modifier}+Shift+8" = "move container to workspace number 8";
+                  "${modifier}+Shift+9" = "move container to workspace number 9";
+                  "${modifier}+Shift+0" = "move container to workspace number 10";
+                  "${modifier}+Shift+minus" = "move scratchpad";
+                  "${modifier}+minus" = "scratchpad show";
+                  "${modifier}+Shift+c" = "reload";
+                  "${modifier}+Shift+e" =
+                    "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'";
+                  "${modifier}+r" = "mode resize";
+
                   # screenshot
                   "${modifier}+Shift+s" = "exec grim -g \"$(slurp)\" - | wl-copy";
+                  # lock
                   "${modifier}+l" = "exec swaylock";
+                  # help menu (all keybindings)
+                  "${modifier}+question" = "exec ${pkgs.writeScript "sway-help" ''
+                    #!${pkgs.python3}/bin/python3
+                    import pathlib
+                    import re
+
+                    with open(pathlib.Path.home() / ".config" / "sway" / "config", "r", encoding="utf-8") as f:
+                        cfg = f.read()
+                    pattern = re.compile(r"^bindsym ([^ ]+) (.+)$", re.MULTILINE)
+                    for m in pattern.finditer(cfg):
+                        print(f"{m.group(1)} -> {m.group(2)}")
+                  ''} | fuzzel --dmenu --width 100";
+                };
+                modes = lib.mkOptionDefault {
+                  resize = {
+                    # let me fuckin toggle the mode with the combo I entered it with??? Why is this not in by default??
+                    "${modifier}+r" = "mode default";
+                  };
                 };
               };
 
@@ -206,6 +289,7 @@ in
                   "clock" = {
                     format = " {:%Y-%m-%dT%T%z}";
                     interval = 1;
+                    # TODO: calendar on hover,, pweass,
                   };
 
                   "custom/separator" = {
@@ -216,12 +300,12 @@ in
 
                   "cpu" = {
                     interval = 1;
-                    format = " {usage:3}%";
+                    format = "{usage:3}%";
                   };
 
                   "memory" = {
                     interval = 5;
-                    format = " {percentage:3}%";
+                    format = "{percentage:3}%";
                   };
 
                   "network" = {
@@ -240,7 +324,7 @@ in
 
                   "pulseaudio" = rec {
                     format = "{icon} {volume}% {format_source}";
-                    # TODO: format-bluetooth
+                    format-bluetooth = "󰥰 {volume}% {format_source}";
                     format-source = " {volume}%";
                     format-icons = [
                       "󰕿"
