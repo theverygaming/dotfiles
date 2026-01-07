@@ -90,12 +90,6 @@
     enableSSHSupport = true;
   };
 
-  # avahi
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-  };
-
   # i just want to build an rpi image...
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
