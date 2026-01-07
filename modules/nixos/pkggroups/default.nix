@@ -13,5 +13,6 @@
     ./radio.nix
     ./office.nix
     ./avstuff.nix
+    ./networking.nix
   ];
 }

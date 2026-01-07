@@ -28,6 +28,7 @@ in
         radio.enable = lib.mkDefault true;
         social.enable = lib.mkDefault true;
         avstuff.enable = lib.mkDefault true;
+        networking.enable = lib.mkDefault true;
       };
     };
     environment.systemPackages = with pkgs; [
