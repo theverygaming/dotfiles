@@ -112,6 +112,7 @@
         }
         // (with inputs.nixpkgs.lib; listToAttrs (map (x: nameValuePair x { }) allHosts));
       colmenaHive = inputs.colmena.lib.makeHive self.outputs.colmena;
+      # nix build .#nixosConfigurations.<name>.config.system.build.vm && ./result/bin/run-<name>-vm
       # nix run github:zhaofengli/colmena -- apply --on ... --verbose --show-trace --build-on-target
 
       nixosConfigurations = (inputs.colmena.lib.makeHive self.outputs.colmena).nodes;

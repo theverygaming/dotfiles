@@ -1,4 +1,5 @@
 {
+  lib,
   config,
   flakeInputs,
   pkgs,
@@ -50,8 +51,8 @@
     ];
   };
 
+  # for nixos-rebuild build-vm
   virtualisation.vmVariant = {
-    # for nixos-rebuild build-vm
     virtualisation = {
       memorySize = 3072;
       cores = 3;
@@ -59,6 +60,12 @@
       #  "-vga none -device qxl-vga,vgamem_mb=64,ram_size_mb=256,vram_size_mb=128,max_outputs=3"
       #  "-display none -spice port=5900,addr=127.0.0.1,disable-ticketing"
       #];
+    };
+    # sops secrets won't work in the VM...
+    users.mutableUsers = lib.mkForce true;
+    users.users."user" = {
+      initialPassword = "12345678";
+      hashedPasswordFile = lib.mkForce null;
     };
   };
 
