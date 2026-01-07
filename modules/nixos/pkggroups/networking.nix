@@ -15,13 +15,13 @@ in
 
   config = lib.mkIf cfg.enable {
     programs.wireshark.enable = true;
+    programs.cnping.enable = true;
 
     environment.systemPackages = with pkgs; [
       inetutils
       arping
       mtr
       dnsutils
-      cnping
     ];
   };
 }
