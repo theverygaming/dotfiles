@@ -22,9 +22,10 @@ in
         src = fetchFromGitHub {
           owner = "SatDump";
           repo = "SatDump";
-          rev = "943de7df03405a53753febf602361e73868dc13e";
-          hash = "sha256-17ZtwTK3VOPRc+sy8A+ZmY88j862FvuKARwIifHaLgQ=";
+          rev = "63d3cd96c44134e2d4a47220fb5f53d60bbdb6ce";
+          hash = "sha256-nadIgs9fxnxZf5HrW+WdV/qSWxBbaBNlrVxRswUSlMs=";
         };
+        patches = [ ];
         postPatch = "";
       }))
 
