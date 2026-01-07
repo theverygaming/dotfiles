@@ -19,10 +19,13 @@ in
       htop
       unzip
       inetutils
+      dnsutils
       hyfetch # yeah this is a basic package you will always need
       psmisc
       lm_sensors
       tree
+      pciutils
+      usbutils
     ];
   };
 }
