@@ -33,5 +33,10 @@ in
     environment.systemPackages = with pkgs; [
       wireguard-tools # i use wireguard on most systems
     ];
+    boot.plymouth = {
+      enable = true;
+      themePackages = [ pkgs.plymouth-blahaj-theme ];
+      theme = "blahaj";
+    };
   };
 }
