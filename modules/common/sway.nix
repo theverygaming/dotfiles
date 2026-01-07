@@ -26,6 +26,8 @@ in
 
       services.gnome.gnome-keyring.enable = true;
 
+      # TODO: GTK shall be themed accordingly!
+
       # TODO: this should be independent from the desktop stuff..
       services.displayManager = {
         gdm = {
