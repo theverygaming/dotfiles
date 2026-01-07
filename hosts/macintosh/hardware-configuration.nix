@@ -13,21 +13,29 @@
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"
-    "nvme"
+    "ehci_pci"
+    "ahci"
+    "usbhid"
     "usb_storage"
     "sd_mod"
+    "sdhci_pci"
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+  boot.kernelModules = [
+    "kvm-intel"
+    "wl"
+  ];
+  boot.extraModulePackages = [
+    # config.boot.kernelPackages.broadcom_sta marked insecure, no wifi for now :3
+  ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/f32f3b39-2f73-46f5-9e95-f6b9bdc3b42e";
+    device = "/dev/disk/by-uuid/0d6f966b-c002-4374-9130-a410def217de";
     fsType = "ext4";
   };
 
   fileSystems."/boot/efi" = {
-    device = "/dev/disk/by-uuid/F010-0907";
+    device = "/dev/disk/by-uuid/038D-45EE";
     fsType = "vfat";
   };
 
@@ -38,8 +46,7 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp0s31f6.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp61s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp3s0f0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

@@ -10,12 +10,20 @@
   ];
 
   custom.profiles.desktop.enable = true;
-  custom.desktop.i3.enable = true;
+  custom.desktop.sway = {
+    enable = true;
+  };
+
+  deployment = {
+    targetHost = "192.168.178.40";
+    targetPort = 22;
+    targetUser = "root";
+  };
 
   # Bootloader.
   boot.loader = {
     efi = {
-      canTouchEfiVariables = true;
+      canTouchEfiVariables = false; # doesn't work on the mac
       efiSysMountPoint = "/boot/efi";
     };
     systemd-boot.enable = true;
