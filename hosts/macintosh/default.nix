@@ -16,7 +16,7 @@
 
   deployment = {
     targetHost = "192.168.178.40";
-    targetPort = 22;
+    targetPort = 2222;
     targetUser = "root";
   };
 
