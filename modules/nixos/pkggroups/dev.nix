@@ -15,7 +15,6 @@ in
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      arduino
       gh # GitHub CLI
       git
       python311

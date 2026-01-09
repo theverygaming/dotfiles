@@ -18,8 +18,8 @@ in
     programs.pulseview.enable = true;
 
     environment.systemPackages = with pkgs; [
-      # convenient serial IO tool
-      tio
+      arduino-ide
+      tio # convenient serial IO tool
     ];
   };
 }
